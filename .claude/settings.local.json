@@ -1,0 +1,195 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(update-config)",
+      "mcp__figma__get_metadata",
+      "mcp__figma__generate_figma_design",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's|</head>|<script src=\"\"https://mcp.figma.com/mcp/html-to-design/capture.js\"\" async></script>\\\\n</head>|' \"$f\")",
+      "Bash(done)",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_navigate",
+      "WebSearch",
+      "mcp__figma__get_screenshot",
+      "Bash(python3 -c \":*)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\(''''dependencies'''',{}\\),indent=2\\)\\)\")",
+      "mcp__shadcn__get_add_command_for_items",
+      "Bash(npx shadcn@latest add dialog dropdown-menu calendar toast progress toggle tooltip carousel --yes)",
+      "Bash(npx shadcn-vue@latest add dialog calendar toast progress --yes)",
+      "Bash(npx --yes create-vite@latest frontend --template react-ts)",
+      "Bash(npm install:*)",
+      "Bash(npx --yes shadcn@latest init -d)",
+      "Bash(npx shadcn@latest init -d)",
+      "Bash(npx shadcn@latest add card input label tabs separator badge dialog sheet avatar progress textarea -y)",
+      "Bash(npx shadcn@latest add card input label tabs separator badge dialog sheet avatar progress textarea --overwrite)",
+      "Bash(npx shadcn@latest add slider scroll-area select skeleton toggle tooltip dropdown-menu --overwrite)",
+      "Bash(rm -f C:/Users/sh088/wine-recommend/wine-recommend/frontend/src/App.css)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite:*)",
+      "Bash(grep -E \"\\\\.\\(json|js|ts|tsx\\)$\")",
+      "mcp__figma__get_design_context",
+      "Bash(wc -l src/pages/*.tsx src/components/Layout.tsx src/components/BottomNav.tsx src/components/WineLabLogo.tsx)",
+      "mcp__figma__get_code_connect_suggestions",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/login)",
+      "Bash(start \"\" \"http://localhost:5173/login#figmacapture=cbd97df3-4e0f-47ae-9fde-05ce3f5fc476&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fcbd97df3-4e0f-47ae-9fde-05ce3f5fc476%2Fsubmit&figmadelay=2000\")",
+      "Bash(netstat -ano)",
+      "mcp__figma__whoami",
+      "Bash(python3:*)",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__TalkToFigma__read_my_design",
+      "mcp__TalkToFigma__join_channel",
+      "mcp__TalkToFigma__get_document_info",
+      "mcp__TalkToFigma__get_selection",
+      "mcp__TalkToFigma__create_frame",
+      "WebFetch(domain:github.com)",
+      "Bash(gh release:*)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(xargs grep:*)",
+      "mcp__talk-to-figma__join_channel",
+      "mcp__talk-to-figma__get_selection",
+      "mcp__talk-to-figma__get_document_info",
+      "mcp__talk-to-figma__get_nodes_info",
+      "mcp__talk-to-figma__get_node_info",
+      "mcp__talk-to-figma__resize_node",
+      "mcp__talk-to-figma__create_frame",
+      "mcp__talk-to-figma__create_text",
+      "mcp__talk-to-figma__create_rectangle",
+      "mcp__talk-to-figma__set_fill_color",
+      "mcp__talk-to-figma__set_stroke_color",
+      "mcp__talk-to-figma__clone_node",
+      "mcp__talk-to-figma__get_local_components",
+      "mcp__talk-to-figma__set_corner_radius",
+      "mcp__talk-to-figma__export_node_as_image",
+      "mcp__talk-to-figma__move_node",
+      "Bash(powershell -Command \"Get-Item 'C:/Users/sh088/OneDrive/사진/Screenshots/스크린샷 2026-03-25 103443.png', 'C:/Users/sh088/OneDrive/사진/Screenshots/스크린샷 2026-03-25 103449.png', 'C:/Users/sh088/OneDrive/사진/Screenshots/스크린샷 2026-03-25 103456.png' | Select-Object Name, @{N='KB';E={[math]::Round\\($_.Length/1KB,1\\)}}\")",
+      "Bash(node:*)",
+      "Bash(magick --version)",
+      "Bash(convert --version)",
+      "mcp__talk-to-figma__set_focus",
+      "mcp__talk-to-figma__delete_multiple_nodes",
+      "mcp__talk-to-figma__read_my_design",
+      "Bash(grep -E \"\\\\.\\(css|ts|tsx\\)$\")",
+      "Bash(dir C:\\\\Users\\\\sh088\\\\wine-recommend\\\\winelab-app\\\\app:*)",
+      "Bash(git:*)",
+      "mcp__TalkToFigma__scan_text_nodes",
+      "mcp__TalkToFigma__get_node_info",
+      "mcp__TalkToFigma__create_text",
+      "mcp__TalkToFigma__create_rectangle",
+      "mcp__TalkToFigma__set_fill_color",
+      "Bash(grep -n \"text-xl\" C:/Users/sh088/wine-recommend/winelab-app/wireframes/*.html)",
+      "Bash(python -m http.server 8765)",
+      "Bash(echo \"서버 PID: $!\")",
+      "Bash(python -m http.server 8766)",
+      "Bash(npx --yes http-server . -p 8787 --cors -s)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\sh088\\\\wine-recommend\\\\winelab-app\" -Recurse -Depth 3)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx|js|jsx\\)$\")",
+      "Bash(python search_wine.py \"Malbec\" -n 3)",
+      "Bash(python search_wine.py \"Chateau Margaux\" -n 3)",
+      "Bash(python test_search.py)",
+      "Bash(python search_wine.py \"Malbec\" -n 2 --details)",
+      "Bash(python -c ' *)",
+      "Bash(python search_wine.py \"Unendlich Riesling Smaragd\" -n 5)",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(python import_to_db.py wines_input.txt)",
+      "Bash(python *)",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_evaluate",
+      "Skill(figma:figma-implement-design)",
+      "Bash(npm create *)",
+      "Bash(npx create-expo-app@latest . --template blank-typescript)",
+      "Bash(cp *)",
+      "Bash(cp \"C:/Users/sh088/free-riding-temp/app.json\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-temp/App.tsx\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-temp/index.ts\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-temp/package.json\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-temp/tsconfig.json\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(npx expo *)"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/notification-hook.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/stop-hook.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/pre-tool-block.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/tool-logger.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/post-format.sh",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/tool-logger.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/post-failure-feedback.sh"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/tool-logger.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
