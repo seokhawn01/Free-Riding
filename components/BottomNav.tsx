@@ -2,7 +2,7 @@
 
 import { Home, PlusCircle, CreditCard, BarChart2 } from 'lucide-react';
 
-type TabName = 'home' | 'recording' | 'card' | 'report';
+export type TabName = 'home' | 'recording' | 'card' | 'report';
 
 interface BottomNavProps {
   activeTab: TabName;

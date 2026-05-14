@@ -2,11 +2,16 @@
 
 import { useState } from 'react';
 import { ArrowLeft, ArrowUp, Music } from 'lucide-react';
-import BottomNav from './BottomNav';
+import BottomNav, { TabName } from './BottomNav';
 
 type Tab = 'file' | 'realtime';
 
-export default function MeetingAnalysisScreen() {
+interface MeetingAnalysisScreenProps {
+  onAnalysisStart?: () => void;
+  onTabPress?: (tab: TabName) => void;
+}
+
+export default function MeetingAnalysisScreen({ onAnalysisStart, onTabPress }: MeetingAnalysisScreenProps) {
   const [activeTab, setActiveTab] = useState<Tab>('file');
 
   return (
@@ -75,13 +80,16 @@ export default function MeetingAnalysisScreen() {
         </div>
 
         {/* AI 분석 시작 버튼 */}
-        <button className="mt-6 w-full bg-[#1c1a1c] rounded-xl py-4 text-xl font-bold text-white cursor-pointer hover:bg-black transition-colors">
+        <button
+          onClick={onAnalysisStart}
+          className="mt-6 w-full bg-[#1c1a1c] rounded-xl py-4 text-xl font-bold text-white cursor-pointer hover:bg-black transition-colors"
+        >
           AI 분석 시작
         </button>
       </div>
 
       {/* 하단 내비게이션 */}
-      <BottomNav activeTab="recording" />
+      <BottomNav activeTab="recording" onTabPress={onTabPress} />
     </div>
   );
 }

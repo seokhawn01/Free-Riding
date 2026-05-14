@@ -1,0 +1,112 @@
+[00:01:49] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 000113.png
+[00:01:50] PostToolUse            Read           35ms
+[00:02:18] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\MeetingAnalysisScreen.tsx
+[00:02:18] PostToolUse            Edit           11ms
+[00:02:23] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\MeetingAnalysisScreen.tsx
+[00:02:23] PostToolUse            Edit           3ms
+[00:02:29] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[00:02:29] PostToolUse            Edit           4ms
+[00:02:35] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\app\page.tsx
+[00:02:35] PostToolUse            Write          11ms
+[00:02:38] PreToolUse             Bash           CMD: cd "C:\Users\sh088\free-riding" && npm run dev &
+[00:02:39] PostToolUse            Bash           23ms
+[00:02:45] PreToolUse             Bash           CMD: Start-Sleep -Seconds 5; (Invoke-WebRequest -Uri "http://localhost:3000" -UseBasicParsing -TimeoutSec 5).StatusCode
+[00:03:11] PostToolUseFailure     Bash           ERR: Exit code 2
+/usr/bin/bash: eval: line 1: syntax error near unexpected token `.StatusCode'
+/usr/bin/bash: eval: line 1: `
+[00:03:15] PreToolUse             Bash           CMD: sleep 3 && curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+[00:03:24] PostToolUse            Bash           7662ms
+[00:03:27] PreToolUse             ToolSearch     
+[00:03:27] PostToolUse            ToolSearch     1ms
+[00:03:30] PreToolUse             mcp__playwright__browser_navigate 
+[00:03:31] PostToolUse            mcp__playwright__browser_navigate 195ms
+[00:03:35] PreToolUse             mcp__playwright__browser_take_screenshot 
+[00:03:35] PostToolUse            mcp__playwright__browser_take_screenshot 159ms
+[00:03:40] PreToolUse             mcp__playwright__browser_click 
+[00:03:43] PostToolUse            mcp__playwright__browser_click 1111ms
+[00:03:47] PreToolUse             mcp__playwright__browser_take_screenshot 
+[00:03:47] PostToolUse            mcp__playwright__browser_take_screenshot 140ms
+[00:03:51] PreToolUse             mcp__playwright__browser_click 
+[00:03:53] PostToolUse            mcp__playwright__browser_click 1085ms
+[00:04:59] PreToolUse             mcp__figma__get_design_context 
+[00:05:00] PreToolUse             mcp__figma__get_screenshot 
+[00:05:03] PostToolUse            mcp__figma__get_screenshot 2867ms
+[00:05:03] PostToolUse            mcp__figma__get_design_context 3828ms
+[00:10:44] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\app\globals.css
+[00:10:45] PostToolUse            Edit           18ms
+[00:10:50] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\BottomNav.tsx
+[00:10:50] PostToolUse            Edit           20ms
+[00:10:54] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\MeetingAnalysisScreen.tsx
+[00:10:54] PostToolUse            Edit           4ms
+[00:10:58] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\MeetingAnalysisScreen.tsx
+[00:10:58] PostToolUse            Edit           10ms
+[00:11:02] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\MeetingAnalysisScreen.tsx
+[00:11:02] PostToolUse            Edit           6ms
+[00:11:32] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\ContributionCardScreen.tsx
+[00:11:32] PostToolUse            Write          15ms
+[00:11:41] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\app\page.tsx
+[00:11:42] PostToolUse            Write          6ms
+[00:11:45] PreToolUse             Bash           CMD: cd "C:\Users\sh088\free-riding" && npm run build 2>&1 | tail -15
+[00:11:56] PostToolUse            Bash           10696ms
+[00:12:00] PreToolUse             mcp__playwright__browser_navigate 
+[00:12:00] PostToolUse            mcp__playwright__browser_navigate 225ms
+[00:12:03] PreToolUse             mcp__playwright__browser_click 
+[00:12:04] PostToolUse            mcp__playwright__browser_click 1080ms
+[00:12:08] PreToolUse             mcp__playwright__browser_take_screenshot 
+[00:12:09] PostToolUse            mcp__playwright__browser_take_screenshot 131ms
+[00:12:12] PreToolUse             mcp__playwright__browser_click 
+[00:12:14] PostToolUse            mcp__playwright__browser_click 1067ms
+[00:12:16] PreToolUse             mcp__playwright__browser_take_screenshot 
+[00:12:17] PostToolUse            mcp__playwright__browser_take_screenshot 79ms
+[00:17:41] PreToolUse             mcp__figma__get_design_context 
+[00:17:41] PreToolUse             mcp__figma__get_screenshot 
+[00:17:44] PostToolUse            mcp__figma__get_design_context 3117ms
+[00:17:46] PostToolUse            mcp__figma__get_screenshot 4048ms
+[00:21:10] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\PromiseCardScreen.tsx
+[00:21:10] PostToolUse            Write          12ms
+[00:21:19] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\app\page.tsx
+[00:21:19] PostToolUse            Write          4ms
+[00:21:22] PreToolUse             Bash           CMD: cd "C:\Users\sh088\free-riding" && npm run build 2>&1 | tail -12
+[00:21:34] PostToolUse            Bash           11130ms
+[00:31:11] PreToolUse             ToolSearch     
+[00:31:12] PostToolUse            ToolSearch     0ms
+[00:31:16] PreToolUse             mcp__figma__get_design_context 
+[00:31:16] PreToolUse             mcp__figma__get_screenshot 
+[00:31:19] PostToolUse            mcp__figma__get_screenshot 2132ms
+[00:31:19] PostToolUse            mcp__figma__get_design_context 3296ms
+[00:32:44] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[00:32:44] PostToolUse            Read           12ms
+[00:33:45] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\TeamContributionScreen.tsx
+[00:33:45] PostToolUse            Write          10ms
+[00:33:49] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[00:33:49] PostToolUse            Edit           10ms
+[00:33:55] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[00:33:56] PostToolUse            Edit           5ms
+[00:34:08] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\app\page.tsx
+[00:34:09] PostToolUse            Edit           5ms
+[00:34:13] PreToolUse             Bash           CMD: npm run build 2>&1
+[00:34:24] PostToolUse            Bash           10812ms
+[00:35:37] PreToolUse             mcp__figma__get_design_context 
+[00:35:37] PreToolUse             mcp__figma__get_screenshot 
+[00:35:40] PostToolUse            mcp__figma__get_screenshot 2281ms
+[00:35:40] PostToolUse            mcp__figma__get_design_context 3134ms
+[00:37:13] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\FinalReportScreen.tsx
+[00:37:13] PostToolUse            Write          22ms
+[00:37:22] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\app\page.tsx
+[00:37:22] PostToolUse            Edit           5ms
+[00:37:26] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\app\page.tsx
+[00:37:27] PostToolUse            Edit           4ms
+[00:37:29] PreToolUse             Bash           CMD: npm run build 2>&1
+[00:37:40] PostToolUse            Bash           10727ms
+[00:57:31] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[00:57:31] PostToolUse            Read           34ms
+[00:59:00] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 005823.png
+[00:59:00] PostToolUse            Read           11ms
+[01:01:59] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\HomeScreen.tsx
+[01:02:00] PostToolUse            Write          23ms
+[01:02:21] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\CreateTeamScreen.tsx
+[01:02:21] PostToolUse            Write          28ms
+[01:02:33] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\app\page.tsx
+[01:02:34] PostToolUse            Write          25ms
+[01:02:36] PreToolUse             Bash           CMD: npm run build 2>&1
+[01:02:48] PostToolUse            Bash           11450ms
