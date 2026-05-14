@@ -109,7 +109,18 @@
       "Bash(cp \"C:/Users/sh088/free-riding-temp/index.ts\" \"C:/Users/sh088/free-riding/\")",
       "Bash(cp \"C:/Users/sh088/free-riding-temp/package.json\" \"C:/Users/sh088/free-riding/\")",
       "Bash(cp \"C:/Users/sh088/free-riding-temp/tsconfig.json\" \"C:/Users/sh088/free-riding/\")",
-      "Bash(npx expo *)"
+      "Bash(npx expo *)",
+      "Bash(cp -r \"C:/Users/sh088/free-riding-next/app\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp -r \"C:/Users/sh088/free-riding-next/public\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp -r \"C:/Users/sh088/free-riding-next/node_modules\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-next/package.json\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-next/package-lock.json\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-next/tsconfig.json\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-next/next.config.ts\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-next/next-env.d.ts\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-next/postcss.config.mjs\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(cp \"C:/Users/sh088/free-riding-next/eslint.config.mjs\" \"C:/Users/sh088/free-riding/\")",
+      "Bash(npm run *)"
     ]
   },
   "hooks": {
