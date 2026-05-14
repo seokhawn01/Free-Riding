@@ -23,6 +23,8 @@ type Screen =
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>('home');
+  const [currentTeamId, setCurrentTeamId] = useState<string | null>(null);
+  const [currentMeetingId, setCurrentMeetingId] = useState<string | null>(null);
 
   const handleTabPress = (tab: TabName) => {
     if (tab === 'home') setScreen('home');
@@ -38,46 +40,62 @@ export default function Home() {
           <HomeScreen
             onNewTeam={() => setScreen('create-team')}
             onTabPress={handleTabPress}
+            onSelectTeam={(teamId) => {
+              setCurrentTeamId(teamId);
+              setScreen('meeting');
+            }}
           />
         )}
         {screen === 'create-team' && (
           <CreateTeamScreen
             onBack={() => setScreen('home')}
-            onCreate={() => setScreen('home')}
+            onCreate={(teamId) => {
+              setCurrentTeamId(teamId);
+              setScreen('home');
+            }}
           />
         )}
         {screen === 'meeting' && (
           <MeetingAnalysisScreen
-            onAnalysisStart={() => setScreen('ai')}
+            teamId={currentTeamId}
+            onAnalysisStart={(meetingId) => {
+              setCurrentMeetingId(meetingId);
+              setScreen('ai');
+            }}
             onTabPress={handleTabPress}
           />
         )}
         {screen === 'ai' && (
           <AiAnalysisScreen
+            meetingId={currentMeetingId}
             onBack={() => setScreen('meeting')}
             onComplete={() => setScreen('team-contribution')}
           />
         )}
         {screen === 'team-contribution' && (
           <TeamContributionScreen
+            meetingId={currentMeetingId}
             onBack={() => setScreen('ai')}
             onConfirm={() => setScreen('card')}
           />
         )}
         {screen === 'card' && (
           <ContributionCardScreen
+            meetingId={currentMeetingId}
             onBack={() => setScreen('home')}
             onTabPress={handleTabPress}
           />
         )}
         {screen === 'promise-card' && (
           <PromiseCardScreen
+            teamId={currentTeamId}
             onBack={() => setScreen('home')}
             onTabPress={handleTabPress}
           />
         )}
         {screen === 'report' && (
           <FinalReportScreen
+            teamId={currentTeamId}
             onBack={() => setScreen('home')}
             onTabPress={handleTabPress}
           />

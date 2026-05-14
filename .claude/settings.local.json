@@ -122,7 +122,9 @@
       "Bash(cp \"C:/Users/sh088/free-riding-next/eslint.config.mjs\" \"C:/Users/sh088/free-riding/\")",
       "Bash(npm run *)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
-      "mcp__playwright__browser_click"
+      "mcp__playwright__browser_click",
+      "Bash(vercel *)",
+      "mcp__playwright__browser_console_messages"
     ]
   },
   "hooks": {

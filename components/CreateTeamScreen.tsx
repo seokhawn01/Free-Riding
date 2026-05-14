@@ -2,18 +2,21 @@
 
 import { useState } from 'react';
 import { ArrowLeft, Plus, X } from 'lucide-react';
+import { teamsApi } from '@/lib/api';
 
 interface CreateTeamScreenProps {
   onBack?: () => void;
-  onCreate?: () => void;
+  onCreate?: (teamId: string) => void;
 }
 
 export default function CreateTeamScreen({ onBack, onCreate }: CreateTeamScreenProps) {
   const [subject, setSubject] = useState('');
   const [teamName, setTeamName] = useState('');
-  const [deadline, setDeadline] = useState('2025-06-20');
+  const [deadline, setDeadline] = useState('');
   const [memberInput, setMemberInput] = useState('');
-  const [members, setMembers] = useState<string[]>(['김민준', '이서연', '박도현']);
+  const [members, setMembers] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const addMember = () => {
     const name = memberInput.trim();
@@ -27,9 +30,30 @@ export default function CreateTeamScreen({ onBack, onCreate }: CreateTeamScreenP
     setMembers((prev) => prev.filter((m) => m !== name));
   };
 
+  const handleCreate = async () => {
+    if (!subject || !teamName || !deadline || members.length === 0) {
+      setError('모든 항목을 입력하고 팀원을 1명 이상 추가해주세요.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const team = await teamsApi.create({
+        name: teamName,
+        subject,
+        deadline,
+        members,
+      });
+      onCreate?.(team.id);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : '팀 생성에 실패했습니다.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col flex-1 h-screen">
-      {/* 헤더 */}
       <header className="flex items-center px-3 py-4 bg-white border-b-2 border-[#7b2fbe]">
         <button className="p-1 w-9" onClick={onBack}>
           <ArrowLeft size={28} color="#1c1a1c" />
@@ -39,9 +63,7 @@ export default function CreateTeamScreen({ onBack, onCreate }: CreateTeamScreenP
         </h1>
       </header>
 
-      {/* 폼 영역 */}
       <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-5">
-        {/* 과목명 */}
         <div>
           <label className="block text-[15px] font-semibold text-[#1c1a1c] mb-2">과목명</label>
           <input
@@ -53,7 +75,6 @@ export default function CreateTeamScreen({ onBack, onCreate }: CreateTeamScreenP
           />
         </div>
 
-        {/* 팀명 */}
         <div>
           <label className="block text-[15px] font-semibold text-[#1c1a1c] mb-2">팀명</label>
           <input
@@ -65,7 +86,6 @@ export default function CreateTeamScreen({ onBack, onCreate }: CreateTeamScreenP
           />
         </div>
 
-        {/* 마감일 */}
         <div>
           <label className="block text-[15px] font-semibold text-[#1c1a1c] mb-2">마감일</label>
           <input
@@ -76,13 +96,12 @@ export default function CreateTeamScreen({ onBack, onCreate }: CreateTeamScreenP
           />
         </div>
 
-        {/* 팀원 추가 */}
         <div>
           <label className="block text-[15px] font-semibold text-[#1c1a1c] mb-2">팀원 추가</label>
           <div className="flex gap-2 mb-3">
             <input
               type="text"
-              placeholder="이름 또는 이메일 입력"
+              placeholder="이름 입력"
               value={memberInput}
               onChange={(e) => setMemberInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') addMember(); }}
@@ -96,7 +115,6 @@ export default function CreateTeamScreen({ onBack, onCreate }: CreateTeamScreenP
             </button>
           </div>
 
-          {/* 추가된 팀원 칩 */}
           {members.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {members.map((m) => (
@@ -116,15 +134,19 @@ export default function CreateTeamScreen({ onBack, onCreate }: CreateTeamScreenP
             </div>
           )}
         </div>
+
+        {error && (
+          <p className="text-sm text-red-500">{error}</p>
+        )}
       </div>
 
-      {/* 하단 생성 버튼 */}
       <div className="px-6 pb-8 pt-4">
         <button
-          onClick={onCreate}
-          className="w-full bg-[#1c1a1c] rounded-xl py-4 text-xl font-bold text-white cursor-pointer hover:bg-black transition-colors"
+          onClick={handleCreate}
+          disabled={loading}
+          className="w-full bg-[#1c1a1c] rounded-xl py-4 text-xl font-bold text-white cursor-pointer hover:bg-black transition-colors disabled:opacity-50"
         >
-          팀플 생성하기
+          {loading ? '생성 중...' : '팀플 생성하기'}
         </button>
       </div>
     </div>

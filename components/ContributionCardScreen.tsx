@@ -1,89 +1,54 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import BottomNav, { TabName } from './BottomNav';
+import { meetingsApi } from '@/lib/api';
+import type { ContributionCard, ContributionType } from '@/lib/types';
 
-type ContributionType = '전체' | '아이디어 제안' | '문제제기' | '핵심질문' | '논의정리' | '의사결정' | '실행약속';
-type CardType = Exclude<ContributionType, '전체'>;
+type FilterType = '전체' | ContributionType;
 
-interface ContributionCard {
-  id: number;
-  type: CardType;
-  author: string;
-  content: string;
-}
-
-// 기여 유형별 색상 (태그 뱃지 + 카드 배경)
-const typeStyleMap: Record<CardType, { pillColor: string; cardBg: string }> = {
-  '아이디어 제안': { pillColor: '#3a7bd5', cardBg: 'rgba(58, 123, 213, 0.1)' },
-  '문제제기':      { pillColor: '#e84040', cardBg: 'rgba(232, 64, 64, 0.1)' },
-  '핵심질문':      { pillColor: '#f5a623', cardBg: 'rgba(245, 166, 35, 0.1)' },
-  '논의정리':      { pillColor: '#7c4dff', cardBg: 'rgba(124, 77, 255, 0.1)' },
-  '의사결정':      { pillColor: '#4caf82', cardBg: 'rgba(76, 175, 130, 0.1)' },
-  '실행약속':      { pillColor: '#e65100', cardBg: 'rgba(230, 81, 0, 0.1)' },
+const TYPE_LABEL: Record<ContributionType, string> = {
+  idea: '아이디어 제안', problem: '문제제기', question: '핵심질문',
+  summary: '논의정리', decision: '의사결정', promise: '실행약속',
 };
 
-const filterList: ContributionType[] = [
-  '전체', '아이디어 제안', '문제제기', '핵심질문', '논의정리', '의사결정', '실행약속',
-];
+const typeStyleMap: Record<ContributionType, { pillColor: string; cardBg: string }> = {
+  idea:     { pillColor: '#3a7bd5', cardBg: 'rgba(58,123,213,0.1)' },
+  problem:  { pillColor: '#e84040', cardBg: 'rgba(232,64,64,0.1)' },
+  question: { pillColor: '#f5a623', cardBg: 'rgba(245,166,35,0.1)' },
+  summary:  { pillColor: '#7c4dff', cardBg: 'rgba(124,77,255,0.1)' },
+  decision: { pillColor: '#4caf82', cardBg: 'rgba(76,175,130,0.1)' },
+  promise:  { pillColor: '#e65100', cardBg: 'rgba(230,81,0,0.1)' },
+};
 
-const sampleCards: ContributionCard[] = [
-  {
-    id: 1,
-    type: '아이디어 제안',
-    author: '김민준',
-    content: '"캐시 알고리즘을 LRU대신 LFU로 바꾸면 성능이 좋아질 것 같습니다."',
-  },
-  {
-    id: 2,
-    type: '문제제기',
-    author: '이서연',
-    content: '"현재 구현에서 동시성 처리가 제대로되지 않고 있어요."',
-  },
-  {
-    id: 3,
-    type: '핵심질문',
-    author: '박도현',
-    content: '"로그인 보장이 안 될 경우 어떻게 처리할 건가요?."',
-  },
-];
-
-function ContributionCardItem({ card }: { card: ContributionCard }) {
-  const { pillColor, cardBg } = typeStyleMap[card.type];
-
-  return (
-    <div className="rounded-xl px-3 pt-3 pb-4" style={{ backgroundColor: cardBg }}>
-      {/* 태그 + 발언자 행 */}
-      <div className="flex items-center justify-between mb-[11px]">
-        <span
-          className="text-xs text-white rounded-full px-3 py-[5px] leading-none"
-          style={{ backgroundColor: pillColor }}
-        >
-          {card.type}
-        </span>
-        <span className="text-xs text-[#989494]">{card.author}</span>
-      </div>
-      {/* 발언 내용 */}
-      <p className="text-xs text-black leading-5">{card.content}</p>
-    </div>
-  );
-}
+const ALL_TYPES: ContributionType[] = ['idea', 'problem', 'question', 'summary', 'decision', 'promise'];
 
 interface ContributionCardScreenProps {
+  meetingId: string | null;
   onBack?: () => void;
   onTabPress?: (tab: TabName) => void;
 }
 
-export default function ContributionCardScreen({ onBack, onTabPress }: ContributionCardScreenProps) {
-  const [activeFilter, setActiveFilter] = useState<ContributionType>('전체');
+export default function ContributionCardScreen({ meetingId, onBack, onTabPress }: ContributionCardScreenProps) {
+  const [cards, setCards] = useState<ContributionCard[]>([]);
+  const [activeFilter, setActiveFilter] = useState<FilterType>('전체');
+  const [loading, setLoading] = useState(true);
 
-  const filteredCards =
-    activeFilter === '전체' ? sampleCards : sampleCards.filter((c) => c.type === activeFilter);
+  useEffect(() => {
+    if (!meetingId) { setLoading(false); return; }
+    meetingsApi.getContributions(meetingId)
+      .then(setCards)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [meetingId]);
+
+  const filtered = activeFilter === '전체'
+    ? cards
+    : cards.filter((c) => c.contribution_type === activeFilter);
 
   return (
     <div className="flex flex-col flex-1 h-screen">
-      {/* 헤더 */}
       <header className="flex items-center px-3 py-4 bg-white border-b-2 border-[#7b2fbe]">
         <button className="p-1 w-9" onClick={onBack}>
           <ArrowLeft size={28} color="#1c1a1c" />
@@ -93,46 +58,64 @@ export default function ContributionCardScreen({ onBack, onTabPress }: Contribut
         </h1>
       </header>
 
-      {/* 기여 유형 필터 탭 (가로 스크롤) */}
-      <div className="flex gap-[10px] overflow-x-auto px-[10px] py-[10px] bg-white scrollbar-hide">
-        {filterList.map((filter) => {
-          const isActive = activeFilter === filter;
-          const isAll = filter === '전체';
-          const style = isAll ? null : typeStyleMap[filter as CardType];
-
-          const bg = isAll
-            ? isActive ? '#1c1a1c' : '#f3f3f3'
-            : isActive ? style!.pillColor : 'white';
-
-          const textColor = isAll
-            ? isActive ? '#f3f3f3' : '#1c1a1c'
-            : isActive ? '#f3f3f3' : style!.pillColor;
-
-          const border = isAll ? undefined : `1.5px solid ${style!.pillColor}`;
-
+      {/* 필터 탭 */}
+      <div className="flex gap-[10px] overflow-x-auto px-[10px] py-[10px] bg-white">
+        <button
+          onClick={() => setActiveFilter('전체')}
+          className="shrink-0 rounded-full px-3 h-[31px] text-[16px] cursor-pointer leading-none transition-colors"
+          style={{
+            backgroundColor: activeFilter === '전체' ? '#1c1a1c' : '#f3f3f3',
+            color: activeFilter === '전체' ? '#f3f3f3' : '#1c1a1c',
+          }}
+        >
+          전체
+        </button>
+        {ALL_TYPES.map((type) => {
+          const { pillColor } = typeStyleMap[type];
+          const isActive = activeFilter === type;
           return (
             <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className="shrink-0 rounded-full px-3 h-[31px] text-[16px] cursor-pointer leading-none"
-              style={{ backgroundColor: bg, color: textColor, border }}
+              key={type}
+              onClick={() => setActiveFilter(type)}
+              className="shrink-0 rounded-full px-3 h-[31px] text-[16px] cursor-pointer leading-none transition-colors"
+              style={{
+                backgroundColor: isActive ? pillColor : 'white',
+                color: isActive ? '#f3f3f3' : pillColor,
+                border: `1.5px solid ${pillColor}`,
+              }}
             >
-              {filter}
+              {TYPE_LABEL[type]}
             </button>
           );
         })}
       </div>
 
-      {/* 기여도 카드 목록 */}
       <div className="flex-1 overflow-y-auto px-[26px] py-5 flex flex-col gap-[19px]">
-        {filteredCards.length === 0 ? (
+        {loading && <p className="text-center text-sm text-[#989494] mt-10">불러오는 중...</p>}
+
+        {!loading && filtered.length === 0 && (
           <p className="text-center text-sm text-[#989494] mt-10">해당 유형의 기여가 없습니다.</p>
-        ) : (
-          filteredCards.map((card) => <ContributionCardItem key={card.id} card={card} />)
         )}
+
+        {filtered.map((card) => {
+          const { pillColor, cardBg } = typeStyleMap[card.contribution_type];
+          return (
+            <div key={card.id} className="rounded-xl px-3 pt-3 pb-4" style={{ backgroundColor: cardBg }}>
+              <div className="flex items-center justify-between mb-[11px]">
+                <span
+                  className="text-xs text-white rounded-full px-3 py-[5px] leading-none"
+                  style={{ backgroundColor: pillColor }}
+                >
+                  {TYPE_LABEL[card.contribution_type]}
+                </span>
+                <span className="text-xs text-[#989494]">{card.member_name}</span>
+              </div>
+              <p className="text-xs text-black leading-5">{card.content}</p>
+            </div>
+          );
+        })}
       </div>
 
-      {/* 하단 내비게이션 */}
       <BottomNav activeTab="card" onTabPress={onTabPress} />
     </div>
   );

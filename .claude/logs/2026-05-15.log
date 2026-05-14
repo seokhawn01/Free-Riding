@@ -110,3 +110,174 @@
 [01:02:34] PostToolUse            Write          25ms
 [01:02:36] PreToolUse             Bash           CMD: npm run build 2>&1
 [01:02:48] PostToolUse            Bash           11450ms
+[01:07:39] PreToolUse             Bash           CMD: ls C:\Users\sh088\free-riding
+[01:07:44] PostToolUseFailure     Bash           ERR: Exit code 2
+ls: cannot access 'C:Userssh088free-riding': No such file or directory
+[01:07:49] PreToolUse             PowerShell     CMD: Get-ChildItem "C:\Users\sh088\free-riding"
+[01:08:03] PostToolUse            PowerShell     2ms
+[01:08:06] PreToolUse             Glob           
+[01:08:07] PostToolUse            Glob           1396ms
+[01:08:12] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\package.json
+[01:08:12] PostToolUse            Read           7ms
+[01:08:16] PreToolUse             Glob           
+[01:08:17] PostToolUse            Glob           247ms
+[01:08:18] PreToolUse             Bash           CMD: vercel --version 2>&1
+[01:08:27] PostToolUseFailure     Bash           ERR: Exit code 127
+/usr/bin/bash: line 1: vercel: command not found
+[01:10:21] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 010954.png
+[01:10:22] PostToolUse            Read           20ms
+[01:14:12] PreToolUse             mcp__sequential-thinking__sequentialthinking 
+[01:14:12] PostToolUse            mcp__sequential-thinking__sequentialthinking 74ms
+[01:14:16] PreToolUse             Glob           
+[01:14:17] PostToolUse            Glob           246ms
+[01:14:21] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\app\page.tsx
+[01:14:21] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\app\layout.tsx
+[01:14:21] PostToolUse            Read           12ms
+[01:14:21] PostToolUse            Read           9ms
+[01:14:25] PreToolUse             Glob           
+[01:14:26] PostToolUse            Glob           196ms
+[01:14:29] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\HomeScreen.tsx
+[01:14:29] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\MeetingAnalysisScreen.tsx
+[01:14:30] PostToolUse            Read           18ms
+[01:14:30] PostToolUse            Read           8ms
+[01:14:34] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\CreateTeamScreen.tsx
+[01:14:34] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[01:14:34] PostToolUse            Read           29ms
+[01:14:35] PostToolUse            Read           9ms
+[01:14:39] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\ContributionCardScreen.tsx
+[01:14:39] PostToolUse            Read           0ms
+[01:14:40] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\PromiseCardScreen.tsx
+[01:14:40] PostToolUse            Read           17ms
+[01:14:44] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\FinalReportScreen.tsx
+[01:14:44] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\TeamContributionScreen.tsx
+[01:14:44] PostToolUse            Read           7ms
+[01:14:45] PostToolUse            Read           9ms
+[01:16:15] PreToolUse             mcp__sequential-thinking__sequentialthinking 
+[01:16:16] PostToolUse            mcp__sequential-thinking__sequentialthinking 12ms
+[01:16:31] PreToolUse             mcp__sequential-thinking__sequentialthinking 
+[01:16:31] PostToolUse            mcp__sequential-thinking__sequentialthinking 19ms
+[01:16:51] PreToolUse             mcp__sequential-thinking__sequentialthinking 
+[01:16:52] PostToolUse            mcp__sequential-thinking__sequentialthinking 12ms
+[01:16:59] PreToolUse             Bash           CMD: mkdir -p /c/Users/sh088/free-riding/supabase /c/Users/sh088/free-riding/backend/routers /c/Users/sh088/free-riding/backe
+[01:17:05] PostToolUse            Bash           5693ms
+[01:17:17] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\supabase\schema.sql
+[01:17:17] PostToolUse            Write          16ms
+[01:17:18] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\requirements.txt
+[01:17:19] PostToolUse            Write          32ms
+[01:17:23] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\.env.example
+[01:17:24] PostToolUse            Write          20ms
+[01:17:25] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\database.py
+[01:17:25] PostToolUse            Write          25ms
+[01:17:36] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\schemas.py
+[01:17:37] PostToolUse            Write          35ms
+[01:18:10] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\services\ai_service.py
+[01:18:11] PostToolUse            Write          36ms
+[01:18:29] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\routers\teams.py
+[01:18:30] PostToolUse            Write          58ms
+[01:18:45] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\routers\meetings.py
+[01:18:45] PostToolUse            Write          22ms
+[01:18:55] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\routers\promises.py
+[01:18:55] PostToolUse            Write          20ms
+[01:19:10] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\routers\reports.py
+[01:19:10] PostToolUse            Write          16ms
+[01:19:15] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\main.py
+[01:19:16] PostToolUse            Write          40ms
+[01:19:21] PreToolUse             Bash           CMD: touch /c/Users/sh088/free-riding/backend/routers/__init__.py /c/Users/sh088/free-riding/backend/services/__init__.py && 
+[01:19:28] PostToolUse            Bash           6029ms
+[01:19:28] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\lib\types.ts
+[01:19:29] PostToolUse            Write          40ms
+[01:19:42] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\lib\api.ts
+[01:19:43] PostToolUse            Write          18ms
+[01:19:58] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\app\page.tsx
+[01:19:58] PostToolUse            Write          43ms
+[01:20:24] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\HomeScreen.tsx
+[01:20:25] PostToolUse            Write          39ms
+[01:20:52] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\CreateTeamScreen.tsx
+[01:20:52] PostToolUse            Write          30ms
+[01:21:19] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\MeetingAnalysisScreen.tsx
+[01:21:20] PostToolUse            Write          44ms
+[01:21:46] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[01:21:46] PostToolUse            Write          27ms
+[01:22:12] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\TeamContributionScreen.tsx
+[01:22:12] PostToolUse            Write          36ms
+[01:22:35] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\ContributionCardScreen.tsx
+[01:22:35] PostToolUse            Write          26ms
+[01:22:58] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\PromiseCardScreen.tsx
+[01:22:59] PostToolUse            Write          47ms
+[01:23:22] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\FinalReportScreen.tsx
+[01:23:22] PostToolUse            Write          34ms
+[01:23:27] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\.env.local.example
+[01:23:27] PostToolUse            Write          29ms
+[01:23:31] PreToolUse             Bash           CMD: npx tsc --noEmit 2>&1 | head -60
+[01:23:40] PostToolUse            Bash           8341ms
+[01:23:46] PreToolUse             Bash           CMD: find /c/Users/sh088/free-riding/backend /c/Users/sh088/free-riding/lib /c/Users/sh088/free-riding/supabase -type f | sor
+[01:23:52] PostToolUse            Bash           5544ms
+[01:29:51] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 010954.png
+[01:29:52] PostToolUse            Read           43ms
+[01:30:24] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 012845.png
+[01:30:24] PostToolUse            Read           18ms
+[01:40:30] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 013722.png
+[01:40:30] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 014013.png
+[01:40:30] PostToolUse            Read           20ms
+[01:40:30] PostToolUse            Read           11ms
+[01:43:56] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 014344.png
+[01:43:57] PostToolUse            Read           18ms
+[01:50:59] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\backend\requirements.txt
+[01:50:59] PostToolUse            Write          9ms
+[02:00:06] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 015743.png
+[02:00:06] PostToolUse            Read           22ms
+[02:05:56] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 020537.png
+[02:05:56] PostToolUse            Read           56ms
+[02:14:48] PreToolUse             Bash           CMD: ls -la /c/Users/sh088/free-riding/ && echo "---" && ls -la /c/Users/sh088/free-riding/backend/
+[02:14:53] PostToolUse            Bash           4703ms
+[02:15:04] PreToolUse             Bash           CMD: cat /c/Users/sh088/free-riding/.env && echo "===" && cat /c/Users/sh088/free-riding/backend/.env
+[02:18:15] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\backend\services\ai_service.py
+[02:18:16] PostToolUse            Read           14ms
+[02:18:23] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\backend\main.py
+[02:18:23] PostToolUse            Read           8ms
+[02:18:31] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\backend\main.py
+[02:18:31] PostToolUse            Edit           13ms
+[02:20:40] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\backend\database.py
+[02:20:40] PostToolUse            Read           30ms
+[02:21:06] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\backend\database.py
+[02:21:06] PostToolUse            Edit           6ms
+[02:21:11] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\backend\services\ai_service.py
+[02:21:12] PostToolUse            Edit           10ms
+[02:27:29] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 022707.png
+[02:27:30] PostToolUse            Read           185ms
+[02:27:37] PreToolUse             ToolSearch     
+[02:27:38] PostToolUse            ToolSearch     2ms
+[02:27:41] PreToolUse             mcp__playwright__browser_navigate 
+[02:27:42] PostToolUse            mcp__playwright__browser_navigate 705ms
+[02:27:45] PreToolUse             mcp__playwright__browser_console_messages 
+[02:27:56] PostToolUse            mcp__playwright__browser_console_messages 36ms
+[02:28:08] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\backend\main.py
+[02:28:08] PostToolUse            Read           19ms
+[02:28:13] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\backend\main.py
+[02:28:13] PostToolUse            Edit           9ms
+[02:28:19] PreToolUse             mcp__playwright__browser_navigate 
+[02:28:19] PostToolUse            mcp__playwright__browser_navigate 180ms
+[02:28:34] PreToolUse             mcp__playwright__browser_navigate 
+[02:28:35] PostToolUse            mcp__playwright__browser_navigate 373ms
+[02:28:42] PreToolUse             mcp__playwright__browser_navigate 
+[02:28:42] PostToolUse            mcp__playwright__browser_navigate 59ms
+[02:28:49] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\backend\routers\teams.py
+[02:28:49] PostToolUse            Read           16ms
+[02:28:58] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\backend\schemas.py
+[02:28:58] PostToolUse            Read           19ms
+[02:29:23] PreToolUse             mcp__playwright__browser_navigate 
+[02:29:24] PostToolUse            mcp__playwright__browser_navigate 768ms
+[02:32:17] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\backend\venv\Lib\site-packages\supabase\_sync\client.py
+[02:32:18] PostToolUse            Read           22ms
+[02:32:51] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\backend\venv\Lib\site-packages\supabase\_sync\client.py
+[02:32:51] PostToolUse            Edit           21ms
+[02:32:56] PreToolUse             Glob           
+[02:32:56] PostToolUse            Glob           91ms
+[02:33:02] PreToolUse             Grep           
+[02:33:02] PostToolUse            Grep           65ms
+[02:33:06] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\backend\venv\Lib\site-packages\supabase\_async\client.py
+[02:33:06] PostToolUse            Read           19ms
+[02:33:12] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\backend\venv\Lib\site-packages\supabase\_async\client.py
+[02:33:12] PostToolUse            Edit           14ms
+[02:33:18] PreToolUse             mcp__playwright__browser_navigate 
+[02:33:19] PostToolUse            mcp__playwright__browser_navigate 365ms
