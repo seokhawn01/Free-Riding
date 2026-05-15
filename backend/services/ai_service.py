@@ -23,6 +23,9 @@ ANALYSIS_MODELS = {
 
 SYSTEM_PROMPT = """당신은 한국어 팀 회의 전사본을 분석하여 각 발언을 6가지 기여 유형으로 분류하는 전문가입니다.
 
+⚠️ 중요: speaker 필드에는 전사본에 표기된 화자 레이블(예: 화자1, 화자2)을 반드시 그대로 사용하세요.
+임의로 이름을 추론하거나 변경하지 마세요.
+
 [분류 기준 - 화용론 기반]
 1. idea (아이디어 제안, 16점): "~하면 어떨까요?", "~방안을 제안합니다" 등 새로운 아이디어를 제안하는 발언
 2. problem (문제제기, 16점): "하지만", "다만", "리스크" 등 부정적 키워드 + 논리적 근거로 문제를 제기하는 발언
@@ -33,22 +36,22 @@ SYSTEM_PROMPT = """당신은 한국어 팀 회의 전사본을 분석하여 각 
 
 [퓨샷 예시]
 발화: "캐시 알고리즘을 LRU 대신 LFU로 바꾸면 성능이 좋아질 것 같아요"
-→ type: "idea", score: 16
+→ speaker: "화자1", type: "idea", score: 16
 
 발화: "현재 구현에서 동시성 처리가 제대로 안 되고 있어요"
-→ type: "problem", score: 16
+→ speaker: "화자2", type: "problem", score: 16
 
 발화: "로그인 보장이 안 될 경우 어떻게 처리할 건가요?"
-→ type: "question", score: 16
+→ speaker: "화자1", type: "question", score: 16
 
 발화: "결국 LFU 방식으로 재구현하고 다음 주까지 테스트하자는 거죠?"
-→ type: "summary", score: 16
+→ speaker: "화자3", type: "summary", score: 16
 
 발화: "그럼 LFU 방식으로 최종 결정하겠습니다. 이견 없으시죠?"
-→ type: "decision", score: 16
+→ speaker: "화자2", type: "decision", score: 16
 
 발화: "제가 목요일까지 캐시 모듈 재구현하겠습니다"
-→ type: "promise", score: 20
+→ speaker: "화자1", type: "promise", score: 20
 
 [중요 규칙]
 - 의미 없는 단순 발언("네", "알겠어요" 등)은 포함하지 마세요
@@ -59,7 +62,7 @@ SYSTEM_PROMPT = """당신은 한국어 팀 회의 전사본을 분석하여 각 
 {
   "contributions": [
     {
-      "speaker": "발언자 이름",
+      "speaker": "화자1",
       "content": "발언 내용",
       "type": "idea|problem|question|summary|decision|promise",
       "score": 16
@@ -67,28 +70,12 @@ SYSTEM_PROMPT = """당신은 한국어 팀 회의 전사본을 분석하여 각 
   ],
   "promises": [
     {
-      "speaker": "담당자 이름",
+      "speaker": "화자1",
       "task": "할 일 내용",
       "due_date": "YYYY-MM-DD 또는 null"
     }
   ]
 }"""
-
-
-def resolve_member_id(speaker: str, member_map: dict[str, str]) -> str | None:
-    """발언자 이름으로 팀원 ID 조회. 정확 일치 우선, 가장 긴 부분 일치 후순위."""
-    if speaker in member_map:
-        return member_map[speaker]
-
-    candidates = [
-        (name, mid) for name, mid in member_map.items()
-        if speaker in name or name in speaker
-    ]
-    if candidates:
-        _, best_id = max(candidates, key=lambda x: len(x[0]))
-        return best_id
-
-    return None
 
 
 def transcribe_audio(audio_file_path: str, model_type: str) -> str:
@@ -103,16 +90,16 @@ def transcribe_audio(audio_file_path: str, model_type: str) -> str:
     return response
 
 
-def analyze_transcript(transcript: str, member_names: list[str], model_type: str) -> dict:
+def analyze_transcript(transcript: str, model_type: str) -> dict:
     model = ANALYSIS_MODELS.get(model_type, "gpt-4o-mini")
-    member_list = ", ".join(member_names)
 
-    user_message = f"""다음은 팀 회의 전사본입니다. 팀원 목록: {member_list}
+    user_message = f"""다음은 팀 회의 전사본입니다.
 
 전사본:
 {transcript}
 
-위 전사본에서 의미 있는 기여 발언을 분류하고, 실행 약속을 추출해주세요."""
+위 전사본에서 의미 있는 기여 발언을 분류하고, 실행 약속을 추출해주세요.
+speaker 필드에는 전사본의 화자 레이블(화자1, 화자2 등)을 그대로 사용하세요."""
 
     response = client.chat.completions.create(
         model=model,
@@ -126,64 +113,27 @@ def analyze_transcript(transcript: str, member_names: list[str], model_type: str
     return json.loads(response.choices[0].message.content)
 
 
-async def process_meeting(meeting_id: str, audio_path: str, model_type: str, member_names: list[str]):
-    """회의 분석 전체 파이프라인 (백그라운드 실행)"""
+async def process_meeting(meeting_id: str, audio_path: str, model_type: str):
+    """전사 + 분석 후 speaker_analysis에 저장. 카드 저장은 화자 매핑 확인 후 별도 수행."""
     db = get_supabase()
 
     try:
-        # 전사 시작
+        # 전사
         db.table("meetings").update({"status": "transcribing"}).eq("id", meeting_id).execute()
         transcript = await asyncio.to_thread(transcribe_audio, audio_path, model_type)
 
-        # 분석 시작
+        # 분석 (화자 레이블 그대로 유지)
         db.table("meetings").update({
             "status": "analyzing",
             "transcript": transcript,
         }).eq("id", meeting_id).execute()
 
-        analysis = await asyncio.to_thread(analyze_transcript, transcript, member_names, model_type)
+        analysis = await asyncio.to_thread(analyze_transcript, transcript, model_type)
 
-        # 팀원 ID 매핑
-        meeting_row = db.table("meetings").select("team_id").eq("id", meeting_id).single().execute()
-        team_id = meeting_row.data["team_id"]
-        members_rows = db.table("team_members").select("id, member_name").eq("team_id", team_id).execute()
-        member_map = {m["member_name"]: m["id"] for m in members_rows.data}
-
-        # 기여도 카드 저장
-        contribution_rows = []
-        for item in analysis.get("contributions", []):
-            member_id = resolve_member_id(item["speaker"], member_map)
-            if not member_id:
-                continue
-            contribution_rows.append({
-                "meeting_id": meeting_id,
-                "team_member_id": member_id,
-                "contribution_type": item["type"],
-                "content": item["content"],
-                "score": item["score"],
-            })
-        if contribution_rows:
-            db.table("contribution_cards").insert(contribution_rows).execute()
-
-        # 약속 카드 저장
-        promise_rows = []
-        for promise in analysis.get("promises", []):
-            member_id = resolve_member_id(promise["speaker"], member_map)
-            if not member_id:
-                continue
-            promise_rows.append({
-                "meeting_id": meeting_id,
-                "team_member_id": member_id,
-                "task_title": promise["task"],
-                "due_date": promise.get("due_date"),
-            })
-        if promise_rows:
-            db.table("promise_cards").insert(promise_rows).execute()
-
-        # 완료
+        # 중간 결과 저장 → 사용자 화자 매핑 대기
         db.table("meetings").update({
-            "status": "completed",
-            "completed_at": datetime.now(timezone.utc).isoformat(),
+            "status": "pending_speaker_mapping",
+            "speaker_analysis": json.dumps(analysis, ensure_ascii=False),
         }).eq("id", meeting_id).execute()
 
     except Exception as e:
@@ -193,6 +143,5 @@ async def process_meeting(meeting_id: str, audio_path: str, model_type: str, mem
         }).eq("id", meeting_id).execute()
         raise
     finally:
-        # 임시 파일 삭제
         if os.path.exists(audio_path):
             os.remove(audio_path)

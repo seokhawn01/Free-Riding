@@ -13,6 +13,7 @@ class MeetingStatus(str, Enum):
     pending = "pending"
     transcribing = "transcribing"
     analyzing = "analyzing"
+    pending_speaker_mapping = "pending_speaker_mapping"
     completed = "completed"
     failed = "failed"
 
@@ -78,6 +79,15 @@ class PromiseCardResponse(BaseModel):
 
 class PromiseCompleteRequest(BaseModel):
     is_completed: bool
+
+
+# 화자 매핑
+class SpeakersResponse(BaseModel):
+    speakers: list[str]
+
+
+class SpeakerMappingRequest(BaseModel):
+    mapping: dict[str, str]  # {"화자1": "team_member_id"}
 
 
 # 리포트 응답

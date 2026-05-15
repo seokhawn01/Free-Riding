@@ -1,7 +1,12 @@
 import os
+import json
 import tempfile
+from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form, BackgroundTasks, Depends
-from schemas import MeetingStatusResponse, ContributionCardResponse, PromiseCardResponse
+from schemas import (
+    MeetingStatusResponse, ContributionCardResponse, PromiseCardResponse,
+    SpeakersResponse, SpeakerMappingRequest,
+)
 from database import get_supabase
 from auth import get_current_user
 from services.ai_service import process_meeting
@@ -49,12 +54,8 @@ async def upload_meeting(
     tmp.write(contents)
     tmp.close()
 
-    # 팀원 목록 조회
-    members = db.table("team_members").select("member_name").eq("team_id", team_id).execute()
-    member_names = [m["member_name"] for m in members.data]
-
     # 백그라운드에서 AI 분석 실행
-    background_tasks.add_task(process_meeting, meeting_id, tmp.name, model_type, member_names)
+    background_tasks.add_task(process_meeting, meeting_id, tmp.name, model_type)
 
     return {"meeting_id": meeting_id, "status": "pending"}
 
@@ -128,3 +129,91 @@ def get_meeting_promises(meeting_id: str, user_id: str = Depends(get_current_use
         )
         for r in rows.data
     ]
+
+
+@router.get("/meetings/{meeting_id}/speakers", response_model=SpeakersResponse)
+def get_speakers(meeting_id: str, user_id: str = Depends(get_current_user)):
+    """분석에서 등장한 고유 화자 레이블 목록 반환 (화자 매핑 UI용)"""
+    db = get_supabase()
+    verify_meeting_owner(meeting_id, user_id, db)
+
+    row = (
+        db.table("meetings")
+        .select("status, speaker_analysis")
+        .eq("id", meeting_id)
+        .single()
+        .execute()
+    )
+    if row.data["status"] != "pending_speaker_mapping":
+        raise HTTPException(status_code=400, detail="화자 매핑이 필요한 상태가 아닙니다")
+
+    analysis = row.data["speaker_analysis"]
+    if isinstance(analysis, str):
+        analysis = json.loads(analysis)
+
+    speakers = sorted(set(c["speaker"] for c in analysis.get("contributions", [])))
+    return SpeakersResponse(speakers=speakers)
+
+
+@router.post("/meetings/{meeting_id}/speaker-mapping")
+def apply_speaker_mapping(
+    meeting_id: str,
+    body: SpeakerMappingRequest,
+    user_id: str = Depends(get_current_user),
+):
+    """화자 레이블 → 팀원 ID 매핑을 적용하여 기여도/약속 카드를 저장하고 완료 처리"""
+    db = get_supabase()
+    verify_meeting_owner(meeting_id, user_id, db)
+
+    row = (
+        db.table("meetings")
+        .select("status, speaker_analysis")
+        .eq("id", meeting_id)
+        .single()
+        .execute()
+    )
+    if row.data["status"] != "pending_speaker_mapping":
+        raise HTTPException(status_code=400, detail="화자 매핑이 필요한 상태가 아닙니다")
+
+    analysis = row.data["speaker_analysis"]
+    if isinstance(analysis, str):
+        analysis = json.loads(analysis)
+
+    mapping = body.mapping  # {"화자1": "member_id_xxx", "화자2": "member_id_yyy"}
+
+    # 기여도 카드 저장
+    contribution_rows = [
+        {
+            "meeting_id": meeting_id,
+            "team_member_id": mapping[item["speaker"]],
+            "contribution_type": item["type"],
+            "content": item["content"],
+            "score": item["score"],
+        }
+        for item in analysis.get("contributions", [])
+        if item["speaker"] in mapping
+    ]
+    if contribution_rows:
+        db.table("contribution_cards").insert(contribution_rows).execute()
+
+    # 약속 카드 저장
+    promise_rows = [
+        {
+            "meeting_id": meeting_id,
+            "team_member_id": mapping[promise["speaker"]],
+            "task_title": promise["task"],
+            "due_date": promise.get("due_date"),
+        }
+        for promise in analysis.get("promises", [])
+        if promise["speaker"] in mapping
+    ]
+    if promise_rows:
+        db.table("promise_cards").insert(promise_rows).execute()
+
+    # 완료 처리
+    db.table("meetings").update({
+        "status": "completed",
+        "completed_at": datetime.now(timezone.utc).isoformat(),
+    }).eq("id", meeting_id).execute()
+
+    return {"status": "completed"}
