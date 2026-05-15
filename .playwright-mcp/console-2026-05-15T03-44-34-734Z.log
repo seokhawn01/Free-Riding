@@ -1,0 +1,12 @@
+[    8538ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8000/teams:0
+[    8538ms] [ERROR] TypeError: Failed to fetch
+    at m (https://free-riding-production.up.railway.app/_next/static/chunks/0ocy~syh48lmd.js:1:2828)
+    at https://free-riding-production.up.railway.app/_next/static/chunks/0ocy~syh48lmd.js:1:3472
+    at iv (https://free-riding-production.up.railway.app/_next/static/chunks/07lhk_q6pmm3r.js:1:102969)
+    at up (https://free-riding-production.up.railway.app/_next/static/chunks/07lhk_q6pmm3r.js:1:127008)
+    at ud (https://free-riding-production.up.railway.app/_next/static/chunks/07lhk_q6pmm3r.js:1:126670)
+    at up (https://free-riding-production.up.railway.app/_next/static/chunks/07lhk_q6pmm3r.js:1:127053)
+    at ud (https://free-riding-production.up.railway.app/_next/static/chunks/07lhk_q6pmm3r.js:1:126670)
+    at up (https://free-riding-production.up.railway.app/_next/static/chunks/07lhk_q6pmm3r.js:1:127053)
+    at ud (https://free-riding-production.up.railway.app/_next/static/chunks/07lhk_q6pmm3r.js:1:126670)
+    at up (https://free-riding-production.up.railway.app/_next/static/chunks/07lhk_q6pmm3r.js:1:126988) @ :0

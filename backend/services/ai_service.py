@@ -10,13 +10,13 @@ load_dotenv(dotenv_path=Path(__file__).parent.parent / '.env')
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 TRANSCRIBE_MODELS = {
-    "standard": "whisper-1",
-    "premium": "whisper-1",
+    "standard": "gpt-4o-mini-transcribe",
+    "premium": "gpt-4o-transcribe",
 }
 
 ANALYSIS_MODELS = {
-    "standard": "gpt-4o-mini",
-    "premium": "gpt-4o",
+    "standard": "gpt-5-mini",
+    "premium": "gpt-5.5",
 }
 
 SYSTEM_PROMPT = """당신은 한국어 팀 회의 전사본을 분석하여 각 발언을 6가지 기여 유형으로 분류하는 전문가입니다.

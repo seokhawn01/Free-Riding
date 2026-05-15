@@ -1,0 +1,13 @@
+[    3171ms] [ERROR] Access to fetch at 'https://free-riding-production.up.railway.app/teams' from origin 'https://free-riding.vercel.app' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://free-riding.vercel.app/:0
+[    3171ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://free-riding-production.up.railway.app/teams:0
+[    3171ms] [ERROR] TypeError: Failed to fetch
+    at m (https://free-riding.vercel.app/_next/static/chunks/0yhm7k7_mklt_.js:1:2819)
+    at https://free-riding.vercel.app/_next/static/chunks/0yhm7k7_mklt_.js:1:3463
+    at iv (https://free-riding.vercel.app/_next/static/chunks/07lhk_q6pmm3r.js:1:102969)
+    at up (https://free-riding.vercel.app/_next/static/chunks/07lhk_q6pmm3r.js:1:127008)
+    at ud (https://free-riding.vercel.app/_next/static/chunks/07lhk_q6pmm3r.js:1:126670)
+    at up (https://free-riding.vercel.app/_next/static/chunks/07lhk_q6pmm3r.js:1:127053)
+    at ud (https://free-riding.vercel.app/_next/static/chunks/07lhk_q6pmm3r.js:1:126670)
+    at up (https://free-riding.vercel.app/_next/static/chunks/07lhk_q6pmm3r.js:1:127053)
+    at ud (https://free-riding.vercel.app/_next/static/chunks/07lhk_q6pmm3r.js:1:126670)
+    at up (https://free-riding.vercel.app/_next/static/chunks/07lhk_q6pmm3r.js:1:126988) @ :0
