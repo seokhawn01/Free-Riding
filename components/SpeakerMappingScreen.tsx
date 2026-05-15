@@ -12,6 +12,8 @@ interface SpeakerMappingScreenProps {
   onComplete?: () => void;
 }
 
+const IGNORE_VALUE = '__ignore__';
+
 const TYPE_LABEL: Record<ContributionType, { emoji: string; label: string }> = {
   idea:     { emoji: '💡', label: '아이디어' },
   problem:  { emoji: '🔴', label: '문제 제기' },
@@ -53,7 +55,10 @@ export default function SpeakerMappingScreen({ meetingId, teamId, onBack, onComp
     setSubmitting(true);
     setError('');
     try {
-      await meetingsApi.applySpeakerMapping(meetingId, mapping);
+      const filteredMapping = Object.fromEntries(
+        Object.entries(mapping).filter(([, v]) => v !== IGNORE_VALUE)
+      );
+      await meetingsApi.applySpeakerMapping(meetingId, filteredMapping);
       onComplete?.();
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : '오류가 발생했습니다');
@@ -80,42 +85,56 @@ export default function SpeakerMappingScreen({ meetingId, teamId, onBack, onComp
 
         {loading && <p className="text-center text-sm text-[#989494] mt-6">불러오는 중...</p>}
 
-        {speakers.map((speaker) => (
-          <div key={speaker.label} className="flex flex-col gap-3 border border-[#e0dede] rounded-[14px] p-4">
-            <p className="text-[18px] font-bold text-[#1c1a1c]">{speaker.label}</p>
-
-            {/* 발언 내용 카드 */}
-            <div className="flex flex-col gap-2">
-              {speaker.contributions.slice(0, 4).map((c, i) => {
-                const meta = TYPE_LABEL[c.type as ContributionType] ?? { emoji: '•', label: c.type };
-                return (
-                  <div key={i} className="flex gap-2 items-start bg-[#f9f9f9] rounded-[8px] px-3 py-2">
-                    <span className="text-[13px] shrink-0 mt-[1px]">{meta.emoji}</span>
-                    <div className="flex-1 min-w-0">
-                      <span className="text-[11px] text-[#7b2fbe] font-semibold mr-1">{meta.label}</span>
-                      <span className="text-[13px] text-[#444] leading-snug line-clamp-2">{c.content}</span>
-                    </div>
-                  </div>
-                );
-              })}
-              {speaker.contributions.length > 4 && (
-                <p className="text-[12px] text-[#989494] text-right">외 {speaker.contributions.length - 4}개 발언</p>
-              )}
-            </div>
-
-            {/* 팀원 매핑 드롭다운 */}
-            <select
-              value={mapping[speaker.label] || ''}
-              onChange={(e) => setMapping((prev) => ({ ...prev, [speaker.label]: e.target.value }))}
-              className="w-full border border-[#cbc7c7] rounded-[11px] px-4 py-3 text-[16px] text-[#1c1a1c] bg-white cursor-pointer"
+        {speakers.map((speaker) => {
+          const isIgnored = mapping[speaker.label] === IGNORE_VALUE;
+          return (
+            <div
+              key={speaker.label}
+              className={`flex flex-col gap-3 border rounded-[14px] p-4 transition-opacity ${
+                isIgnored ? 'border-[#e0dede] opacity-40' : 'border-[#e0dede]'
+              }`}
             >
-              <option value="">팀원 선택</option>
-              {members.map((m) => (
-                <option key={m.id} value={m.id}>{m.member_name}</option>
-              ))}
-            </select>
-          </div>
-        ))}
+              <div className="flex items-center justify-between">
+                <p className="text-[18px] font-bold text-[#1c1a1c]">{speaker.label}</p>
+                {isIgnored && (
+                  <span className="text-[12px] text-[#989494] bg-[#f0f0f0] px-2 py-0.5 rounded-full">무시됨</span>
+                )}
+              </div>
+
+              {/* 발언 내용 카드 */}
+              <div className="flex flex-col gap-2">
+                {speaker.contributions.slice(0, 4).map((c, i) => {
+                  const meta = TYPE_LABEL[c.type as ContributionType] ?? { emoji: '•', label: c.type };
+                  return (
+                    <div key={i} className="flex gap-2 items-start bg-[#f9f9f9] rounded-[8px] px-3 py-2">
+                      <span className="text-[13px] shrink-0 mt-[1px]">{meta.emoji}</span>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[11px] text-[#7b2fbe] font-semibold mr-1">{meta.label}</span>
+                        <span className="text-[13px] text-[#444] leading-snug line-clamp-2">{c.content}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+                {speaker.contributions.length > 4 && (
+                  <p className="text-[12px] text-[#989494] text-right">외 {speaker.contributions.length - 4}개 발언</p>
+                )}
+              </div>
+
+              {/* 팀원 매핑 드롭다운 */}
+              <select
+                value={mapping[speaker.label] || ''}
+                onChange={(e) => setMapping((prev) => ({ ...prev, [speaker.label]: e.target.value }))}
+                className="w-full border border-[#cbc7c7] rounded-[11px] px-4 py-3 text-[16px] text-[#1c1a1c] bg-white cursor-pointer"
+              >
+                <option value="">팀원 선택</option>
+                {members.map((m) => (
+                  <option key={m.id} value={m.id}>{m.member_name}</option>
+                ))}
+                <option value={IGNORE_VALUE}>— 이 화자 무시 —</option>
+              </select>
+            </div>
+          );
+        })}
 
         {error && <p className="text-sm text-red-500 text-center">{error}</p>}
       </div>
