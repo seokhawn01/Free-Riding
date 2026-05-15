@@ -1,6 +1,5 @@
-import os
-import jwt
 from fastapi import Header, HTTPException
+from database import get_supabase
 
 
 def get_current_user(authorization: str = Header(...)) -> str:
@@ -9,14 +8,8 @@ def get_current_user(authorization: str = Header(...)) -> str:
 
     token = authorization.removeprefix("Bearer ")
     try:
-        payload = jwt.decode(
-            token,
-            os.environ["SUPABASE_JWT_SECRET"],
-            algorithms=["HS256"],
-            audience="authenticated",
-        )
-        return payload["sub"]
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="세션이 만료되었습니다. 다시 로그인해주세요")
+        db = get_supabase()
+        response = db.auth.get_user(token)
+        return response.user.id
     except Exception:
         raise HTTPException(status_code=401, detail="유효하지 않은 인증 토큰입니다")
