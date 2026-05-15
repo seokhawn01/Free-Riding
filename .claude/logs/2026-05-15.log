@@ -498,3 +498,41 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 [13:33:10] PostToolUse            Edit           22ms
 [13:33:13] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\app\page.tsx
 [13:33:14] PostToolUse            Read           34ms
+[13:39:30] PreToolUse             Bash           CMD: cd "C:/Users/sh088/free-riding" && npm run dev &
+[13:39:31] PostToolUse            Bash           62ms
+[13:39:33] PreToolUse             Bash           CMD: sleep 4 && curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+[13:39:44] PostToolUse            Bash           10011ms
+[13:39:48] PreToolUse             ToolSearch     
+[13:39:48] PostToolUse            ToolSearch     2ms
+[13:39:51] PreToolUse             mcp__playwright__browser_navigate 
+[13:39:52] PostToolUse            mcp__playwright__browser_navigate 305ms
+[13:39:55] PreToolUse             mcp__playwright__browser_take_screenshot 
+[13:39:55] PostToolUse            mcp__playwright__browser_take_screenshot 97ms
+[13:40:01] PreToolUse             ToolSearch     
+[13:40:02] PostToolUse            ToolSearch     3ms
+[13:40:06] PreToolUse             mcp__playwright__browser_click 
+[13:40:07] PostToolUse            mcp__playwright__browser_click 1116ms
+[13:40:11] PreToolUse             mcp__playwright__browser_take_screenshot 
+[13:40:12] PostToolUse            mcp__playwright__browser_take_screenshot 109ms
+[13:40:23] PreToolUse             mcp__playwright__browser_click 
+[13:40:24] PostToolUse            mcp__playwright__browser_click 1068ms
+[13:40:28] PreToolUse             mcp__playwright__browser_click 
+[13:40:30] PostToolUse            mcp__playwright__browser_click 1051ms
+[13:40:38] PreToolUse             mcp__playwright__browser_take_screenshot 
+[13:40:39] PostToolUse            mcp__playwright__browser_take_screenshot 120ms
+[14:15:25] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\lib\supabase.ts
+[14:15:25] PostToolUse            Read           12ms
+[14:15:31] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\lib\supabase.ts
+[14:15:31] PostToolUse            Edit           5ms
+[14:29:10] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 142845.png
+[14:29:10] PostToolUse            Read           185ms
+[14:29:17] PreToolUse             mcp__playwright__browser_navigate 
+[14:29:18] PostToolUse            mcp__playwright__browser_navigate 419ms
+[14:29:46] PreToolUse             mcp__playwright__browser_take_screenshot 
+[14:29:47] PostToolUse            mcp__playwright__browser_take_screenshot 1106ms
+[14:32:01] PreToolUse             Read           FILE: c:\Users\sh088\OneDrive\사진\Screenshots\스크린샷 2026-05-15 143134.png
+[14:32:02] PostToolUse            Read           12ms
+[14:35:34] PreToolUse             Glob           
+[14:35:35] PostToolUse            Glob           428ms
+[14:35:39] PreToolUse             Bash           CMD: cd "C:/Users/sh088/free-riding" && ls -la | grep env
+[14:35:44] PostToolUse            Bash           4609ms
