@@ -1,4 +1,4 @@
-import type { Team, MeetingStatusResponse, ContributionCard, PromiseCard, Report } from './types';
+import type { Team, MeetingStatusResponse, ContributionCard, PromiseCard, Report, SpeakerWithContributions } from './types';
 import { supabase } from './supabase';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -67,7 +67,7 @@ export const meetingsApi = {
     request<PromiseCard[]>(`/meetings/${meetingId}/promises`),
 
   getSpeakers: (meetingId: string) =>
-    request<{ speakers: string[] }>(`/meetings/${meetingId}/speakers`),
+    request<{ speakers: SpeakerWithContributions[] }>(`/meetings/${meetingId}/speakers`),
 
   applySpeakerMapping: (meetingId: string, mapping: Record<string, string>) =>
     request<{ status: string }>(`/meetings/${meetingId}/speaker-mapping`, {

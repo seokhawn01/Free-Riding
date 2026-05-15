@@ -7,6 +7,16 @@ export interface TeamMember {
   member_name: string;
 }
 
+export interface SpeakerContributionItem {
+  type: ContributionType;
+  content: string;
+}
+
+export interface SpeakerWithContributions {
+  label: string;
+  contributions: SpeakerContributionItem[];
+}
+
 export interface Team {
   id: string;
   name: string;

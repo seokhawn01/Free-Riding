@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form, BackgroundTasks, Depends
 from schemas import (
     MeetingStatusResponse, ContributionCardResponse, PromiseCardResponse,
-    SpeakersResponse, SpeakerMappingRequest,
+    SpeakersResponse, SpeakerWithContributions, SpeakerContributionItem, SpeakerMappingRequest,
 )
 from database import get_supabase
 from auth import get_current_user
@@ -151,7 +151,18 @@ def get_speakers(meeting_id: str, user_id: str = Depends(get_current_user)):
     if isinstance(analysis, str):
         analysis = json.loads(analysis)
 
-    speakers = sorted(set(c["speaker"] for c in analysis.get("contributions", [])))
+    # 화자별 기여 내용 그룹화
+    speaker_map: dict[str, list[SpeakerContributionItem]] = {}
+    for c in analysis.get("contributions", []):
+        label = c["speaker"]
+        if label not in speaker_map:
+            speaker_map[label] = []
+        speaker_map[label].append(SpeakerContributionItem(type=c["type"], content=c["content"]))
+
+    speakers = [
+        SpeakerWithContributions(label=label, contributions=contribs)
+        for label, contribs in sorted(speaker_map.items())
+    ]
     return SpeakersResponse(speakers=speakers)
 
 

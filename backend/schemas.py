@@ -82,8 +82,18 @@ class PromiseCompleteRequest(BaseModel):
 
 
 # 화자 매핑
+class SpeakerContributionItem(BaseModel):
+    type: str
+    content: str
+
+
+class SpeakerWithContributions(BaseModel):
+    label: str
+    contributions: list[SpeakerContributionItem]
+
+
 class SpeakersResponse(BaseModel):
-    speakers: list[str]
+    speakers: list[SpeakerWithContributions]
 
 
 class SpeakerMappingRequest(BaseModel):
