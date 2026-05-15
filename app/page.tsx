@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import HomeScreen from '@/components/HomeScreen';
 import CreateTeamScreen from '@/components/CreateTeamScreen';
 import MeetingAnalysisScreen from '@/components/MeetingAnalysisScreen';
@@ -9,7 +10,9 @@ import TeamContributionScreen from '@/components/TeamContributionScreen';
 import ContributionCardScreen from '@/components/ContributionCardScreen';
 import PromiseCardScreen from '@/components/PromiseCardScreen';
 import FinalReportScreen from '@/components/FinalReportScreen';
+import LoginScreen from '@/components/LoginScreen';
 import { TabName } from '@/components/BottomNav';
+import { supabase } from '@/lib/supabase';
 
 type Screen =
   | 'home'
@@ -22,9 +25,20 @@ type Screen =
   | 'report';
 
 export default function Home() {
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [screen, setScreen] = useState<Screen>('home');
   const [currentTeamId, setCurrentTeamId] = useState<string | null>(null);
   const [currentMeetingId, setCurrentMeetingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleTabPress = (tab: TabName) => {
     if (tab === 'home') setScreen('home');
@@ -32,6 +46,26 @@ export default function Home() {
     else if (tab === 'card') setScreen('promise-card');
     else if (tab === 'report') setScreen('report');
   };
+
+  if (session === undefined) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="w-[402px] min-h-screen bg-white flex items-center justify-center">
+          <p className="text-[#989494] text-sm">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (session === null) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="w-[402px] min-h-screen bg-white flex flex-col shadow-xl">
+          <LoginScreen />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">

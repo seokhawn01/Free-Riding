@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import BottomNav, { TabName } from './BottomNav';
 import { teamsApi } from '@/lib/api';
+import { supabase } from '@/lib/supabase';
 import type { Team } from '@/lib/types';
 
 interface HomeScreenProps {
@@ -40,13 +41,21 @@ export default function HomeScreen({ onNewTeam, onTabPress, onSelectTeam }: Home
     <div className="flex flex-col flex-1 h-screen">
       <header className="flex items-center justify-between px-[26px] py-5 bg-white border-b-2 border-[#7b2fbe]">
         <h1 className="text-[24px] font-bold text-[#1c1a1c]">내 팀플</h1>
-        <button
-          onClick={onNewTeam}
-          className="flex flex-col items-center cursor-pointer text-[#1c1a1c] leading-tight"
-        >
-          <span className="text-[18px] leading-none">+</span>
-          <span className="text-[12px]">새로 만들기</span>
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onNewTeam}
+            className="flex flex-col items-center cursor-pointer text-[#1c1a1c] leading-tight"
+          >
+            <span className="text-[18px] leading-none">+</span>
+            <span className="text-[12px]">새로 만들기</span>
+          </button>
+          <button
+            onClick={() => supabase.auth.signOut()}
+            className="text-[12px] text-[#989494] cursor-pointer hover:text-[#7b2fbe] transition-colors"
+          >
+            로그아웃
+          </button>
+        </div>
       </header>
 
       <div className="flex-1 overflow-y-auto bg-[#f5f5f5] px-[17px] py-4 flex flex-col gap-3">
