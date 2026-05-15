@@ -121,7 +121,6 @@ def analyze_transcript(transcript: str, member_names: list[str], model_type: str
             {"role": "user", "content": user_message},
         ],
         response_format={"type": "json_object"},
-        temperature=0.1,
     )
 
     return json.loads(response.choices[0].message.content)
