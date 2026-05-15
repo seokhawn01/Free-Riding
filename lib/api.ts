@@ -40,20 +40,21 @@ export const teamsApi = {
 
 // 회의 API
 export const meetingsApi = {
-  upload: (teamId: string, file: File, modelType: 'standard' | 'premium' = 'standard') => {
+  upload: async (teamId: string, file: File, modelType: 'standard' | 'premium' = 'standard') => {
+    const authHeaders = await getAuthHeaders();
     const form = new FormData();
     form.append('audio', file);
     form.append('model_type', modelType);
-    return fetch(`${BASE_URL}/teams/${teamId}/meetings/upload`, {
+    const res = await fetch(`${BASE_URL}/teams/${teamId}/meetings/upload`, {
       method: 'POST',
+      headers: authHeaders,
       body: form,
-    }).then(async (res) => {
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.detail || `업로드 오류 (${res.status})`);
-      }
-      return res.json() as Promise<{ meeting_id: string; status: string }>;
     });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `업로드 오류 (${res.status})`);
+    }
+    return res.json() as Promise<{ meeting_id: string; status: string }>;
   },
 
   getStatus: (meetingId: string) =>

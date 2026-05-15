@@ -1,0 +1,3 @@
+- [User Profile](user_profile.md) — 한국어 풀스택 개발자, Python(FastAPI) 백엔드 + Next.js 프론트엔드
+- [Project Context](project_free_riding.md) — 무임승차 방지 서비스: 회의 녹음 업로드 → Whisper 전사 → LLM 분석 → 기여도/약속 카드 생성
+- [Recurring Issues](recurring_issues.md) — 이 프로젝트에서 반복적으로 발견되는 패턴과 안티패턴

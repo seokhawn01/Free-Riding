@@ -126,7 +126,9 @@
       "Bash(vercel *)",
       "mcp__playwright__browser_console_messages",
       "mcp__playwright__browser_fill_form",
-      "Bash(Test-Path *)"
+      "Bash(Test-Path *)",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_wait_for"
     ]
   },
   "hooks": {

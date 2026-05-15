@@ -1,5 +1,7 @@
 import os
 import json
+import asyncio
+from datetime import datetime, timezone
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -73,6 +75,22 @@ SYSTEM_PROMPT = """당신은 한국어 팀 회의 전사본을 분석하여 각 
 }"""
 
 
+def resolve_member_id(speaker: str, member_map: dict[str, str]) -> str | None:
+    """발언자 이름으로 팀원 ID 조회. 정확 일치 우선, 가장 긴 부분 일치 후순위."""
+    if speaker in member_map:
+        return member_map[speaker]
+
+    candidates = [
+        (name, mid) for name, mid in member_map.items()
+        if speaker in name or name in speaker
+    ]
+    if candidates:
+        _, best_id = max(candidates, key=lambda x: len(x[0]))
+        return best_id
+
+    return None
+
+
 def transcribe_audio(audio_file_path: str, model_type: str) -> str:
     model = TRANSCRIBE_MODELS.get(model_type, "whisper-1")
     with open(audio_file_path, "rb") as f:
@@ -116,7 +134,7 @@ async def process_meeting(meeting_id: str, audio_path: str, model_type: str, mem
     try:
         # 전사 시작
         db.table("meetings").update({"status": "transcribing"}).eq("id", meeting_id).execute()
-        transcript = transcribe_audio(audio_path, model_type)
+        transcript = await asyncio.to_thread(transcribe_audio, audio_path, model_type)
 
         # 분석 시작
         db.table("meetings").update({
@@ -124,7 +142,7 @@ async def process_meeting(meeting_id: str, audio_path: str, model_type: str, mem
             "transcript": transcript,
         }).eq("id", meeting_id).execute()
 
-        analysis = analyze_transcript(transcript, member_names, model_type)
+        analysis = await asyncio.to_thread(analyze_transcript, transcript, member_names, model_type)
 
         # 팀원 ID 매핑
         meeting_row = db.table("meetings").select("team_id").eq("id", meeting_id).single().execute()
@@ -133,47 +151,37 @@ async def process_meeting(meeting_id: str, audio_path: str, model_type: str, mem
         member_map = {m["member_name"]: m["id"] for m in members_rows.data}
 
         # 기여도 카드 저장
+        contribution_rows = []
         for item in analysis.get("contributions", []):
-            speaker = item["speaker"]
-            member_id = member_map.get(speaker)
-            if not member_id:
-                # 가장 비슷한 이름 찾기
-                for name, mid in member_map.items():
-                    if speaker in name or name in speaker:
-                        member_id = mid
-                        break
+            member_id = resolve_member_id(item["speaker"], member_map)
             if not member_id:
                 continue
-
-            db.table("contribution_cards").insert({
+            contribution_rows.append({
                 "meeting_id": meeting_id,
                 "team_member_id": member_id,
                 "contribution_type": item["type"],
                 "content": item["content"],
                 "score": item["score"],
-            }).execute()
+            })
+        if contribution_rows:
+            db.table("contribution_cards").insert(contribution_rows).execute()
 
         # 약속 카드 저장
+        promise_rows = []
         for promise in analysis.get("promises", []):
-            speaker = promise["speaker"]
-            member_id = member_map.get(speaker)
-            if not member_id:
-                for name, mid in member_map.items():
-                    if speaker in name or name in speaker:
-                        member_id = mid
-                        break
+            member_id = resolve_member_id(promise["speaker"], member_map)
             if not member_id:
                 continue
-
-            db.table("promise_cards").insert({
+            promise_rows.append({
                 "meeting_id": meeting_id,
                 "team_member_id": member_id,
                 "task_title": promise["task"],
                 "due_date": promise.get("due_date"),
-            }).execute()
+            })
+        if promise_rows:
+            db.table("promise_cards").insert(promise_rows).execute()
 
         # 완료
-        from datetime import datetime, timezone
         db.table("meetings").update({
             "status": "completed",
             "completed_at": datetime.now(timezone.utc).isoformat(),

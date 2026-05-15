@@ -9,6 +9,15 @@ from services.ai_service import process_meeting
 router = APIRouter(tags=["meetings"])
 
 
+def verify_meeting_owner(meeting_id: str, user_id: str, db) -> None:
+    """meeting_id가 현재 유저 소유인지 확인. 아니면 403."""
+    row = db.table("meetings").select("teams(user_id)").eq("id", meeting_id).single().execute()
+    if not row.data or not row.data.get("teams"):
+        raise HTTPException(status_code=404, detail="회의를 찾을 수 없습니다")
+    if row.data["teams"]["user_id"] != user_id:
+        raise HTTPException(status_code=403, detail="접근 권한이 없습니다")
+
+
 @router.post("/teams/{team_id}/meetings/upload")
 async def upload_meeting(
     team_id: str,
@@ -51,19 +60,32 @@ async def upload_meeting(
 
 
 @router.get("/meetings/{meeting_id}/status", response_model=MeetingStatusResponse)
-def get_meeting_status(meeting_id: str):
+def get_meeting_status(meeting_id: str, user_id: str = Depends(get_current_user)):
     db = get_supabase()
 
-    meeting = db.table("meetings").select("id, status, error_message").eq("id", meeting_id).single().execute()
-    if not meeting.data:
+    meeting = (
+        db.table("meetings")
+        .select("id, status, error_message, teams(user_id)")
+        .eq("id", meeting_id)
+        .single()
+        .execute()
+    )
+    if not meeting.data or not meeting.data.get("teams"):
         raise HTTPException(status_code=404, detail="회의를 찾을 수 없습니다")
+    if meeting.data["teams"]["user_id"] != user_id:
+        raise HTTPException(status_code=403, detail="접근 권한이 없습니다")
 
-    return MeetingStatusResponse(**meeting.data)
+    return MeetingStatusResponse(
+        id=meeting.data["id"],
+        status=meeting.data["status"],
+        error_message=meeting.data.get("error_message"),
+    )
 
 
 @router.get("/meetings/{meeting_id}/contributions", response_model=list[ContributionCardResponse])
-def get_contributions(meeting_id: str):
+def get_contributions(meeting_id: str, user_id: str = Depends(get_current_user)):
     db = get_supabase()
+    verify_meeting_owner(meeting_id, user_id, db)
 
     rows = (
         db.table("contribution_cards")
@@ -85,8 +107,9 @@ def get_contributions(meeting_id: str):
 
 
 @router.get("/meetings/{meeting_id}/promises", response_model=list[PromiseCardResponse])
-def get_meeting_promises(meeting_id: str):
+def get_meeting_promises(meeting_id: str, user_id: str = Depends(get_current_user)):
     db = get_supabase()
+    verify_meeting_owner(meeting_id, user_id, db)
 
     rows = (
         db.table("promise_cards")
