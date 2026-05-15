@@ -1,0 +1,7 @@
+[    1414ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://tbpqwjqfowplldagjlfb.supabase.co/auth/v1/token?grant_type=refresh_token:0
+[    1415ms] [ERROR] AuthApiError: Invalid Refresh Token: Refresh Token Not Found
+    at rn (https://free-riding.vercel.app/_next/static/chunks/06vzdergbbh4d.js:24:42207)
+    at async ra (https://free-riding.vercel.app/_next/static/chunks/06vzdergbbh4d.js:24:43151)
+    at async ri (https://free-riding.vercel.app/_next/static/chunks/06vzdergbbh4d.js:24:42591)
+    at async r (https://free-riding.vercel.app/_next/static/chunks/06vzdergbbh4d.js:37:25084)
+    at async https://free-riding.vercel.app/_next/static/chunks/06vzdergbbh4d.js:37:25347 @ https://free-riding.vercel.app/_next/static/chunks/06vzdergbbh4d.js:36

@@ -65,6 +65,15 @@ export const meetingsApi = {
 
   getPromises: (meetingId: string) =>
     request<PromiseCard[]>(`/meetings/${meetingId}/promises`),
+
+  getSpeakers: (meetingId: string) =>
+    request<{ speakers: string[] }>(`/meetings/${meetingId}/speakers`),
+
+  applySpeakerMapping: (meetingId: string, mapping: Record<string, string>) =>
+    request<{ status: string }>(`/meetings/${meetingId}/speaker-mapping`, {
+      method: 'POST',
+      body: JSON.stringify({ mapping }),
+    }),
 };
 
 // 약속 카드 API
@@ -94,7 +103,7 @@ export async function pollMeetingStatus(
     const result = await meetingsApi.getStatus(meetingId);
     onStatusChange?.(result.status);
 
-    if (result.status === 'completed' || result.status === 'failed') {
+    if (result.status === 'completed' || result.status === 'failed' || result.status === 'pending_speaker_mapping') {
       return result;
     }
     await new Promise((r) => setTimeout(r, 2000));

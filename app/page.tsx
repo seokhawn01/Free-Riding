@@ -6,6 +6,7 @@ import HomeScreen from '@/components/HomeScreen';
 import CreateTeamScreen from '@/components/CreateTeamScreen';
 import MeetingAnalysisScreen from '@/components/MeetingAnalysisScreen';
 import AiAnalysisScreen from '@/components/AiAnalysisScreen';
+import SpeakerMappingScreen from '@/components/SpeakerMappingScreen';
 import TeamContributionScreen from '@/components/TeamContributionScreen';
 import ContributionCardScreen from '@/components/ContributionCardScreen';
 import PromiseCardScreen from '@/components/PromiseCardScreen';
@@ -19,6 +20,7 @@ type Screen =
   | 'create-team'
   | 'meeting'
   | 'ai'
+  | 'speaker-mapping'
   | 'team-contribution'
   | 'card'
   | 'promise-card'
@@ -103,6 +105,15 @@ export default function Home() {
           <AiAnalysisScreen
             meetingId={currentMeetingId}
             onBack={() => setScreen('meeting')}
+            onComplete={() => setScreen('team-contribution')}
+            onMappingNeeded={() => setScreen('speaker-mapping')}
+          />
+        )}
+        {screen === 'speaker-mapping' && (
+          <SpeakerMappingScreen
+            meetingId={currentMeetingId}
+            teamId={currentTeamId}
+            onBack={() => setScreen('ai')}
             onComplete={() => setScreen('team-contribution')}
           />
         )}

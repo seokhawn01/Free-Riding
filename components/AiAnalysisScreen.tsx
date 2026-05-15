@@ -8,11 +8,12 @@ import type { MeetingStatus } from '@/lib/types';
 type StepStatus = 'completed' | 'active' | 'pending';
 
 const STEP_BY_MEETING_STATUS: Record<MeetingStatus, number> = {
-  pending:      0,
-  transcribing: 1,
-  analyzing:    2,
-  completed:    3,
-  failed:       3,
+  pending:                 0,
+  transcribing:            1,
+  analyzing:               2,
+  pending_speaker_mapping: 3,
+  completed:               3,
+  failed:                  3,
 };
 
 const stepStyleMap: Record<StepStatus, { border: string; badgeBg: string; cardBg: string }> = {
@@ -37,11 +38,13 @@ interface AiAnalysisScreenProps {
   meetingId: string | null;
   onBack?: () => void;
   onComplete?: () => void;
+  onMappingNeeded?: () => void;
 }
 
-export default function AiAnalysisScreen({ meetingId, onBack, onComplete }: AiAnalysisScreenProps) {
+export default function AiAnalysisScreen({ meetingId, onBack, onComplete, onMappingNeeded }: AiAnalysisScreenProps) {
   const [activeStep, setActiveStep] = useState(0);
   const [isDone, setIsDone] = useState(false);
+  const [needsMapping, setNeedsMapping] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -55,6 +58,9 @@ export default function AiAnalysisScreen({ meetingId, onBack, onComplete }: AiAn
       if (result.status === 'completed') {
         setActiveStep(3);
         setIsDone(true);
+      } else if (result.status === 'pending_speaker_mapping') {
+        setActiveStep(3);
+        setNeedsMapping(true);
       } else {
         setIsFailed(true);
         setErrorMsg(result.error_message || '분석에 실패했습니다.');
@@ -72,7 +78,7 @@ export default function AiAnalysisScreen({ meetingId, onBack, onComplete }: AiAn
           <ArrowLeft size={28} color="#1c1a1c" />
         </button>
         <h1 className="flex-1 text-center text-2xl font-bold text-[#1c1a1c] -mr-9">
-          {isDone ? 'AI 분석 완료' : isFailed ? '분석 실패' : 'AI 분석중...'}
+          {isDone ? 'AI 분석 완료' : needsMapping ? '화자 확인 필요' : isFailed ? '분석 실패' : 'AI 분석중...'}
         </h1>
       </header>
 
@@ -120,16 +126,25 @@ export default function AiAnalysisScreen({ meetingId, onBack, onComplete }: AiAn
           <p className="mt-6 text-sm text-red-500 text-center">{errorMsg}</p>
         ) : (
           <p className="mt-6 text-[15px] text-[#989494] text-center">
-            {isDone ? '분석이 완료되었습니다!' : '45분 회의 기준 약 2~3분 소요됩니다'}
+            {isDone ? '분석이 완료되었습니다!' : needsMapping ? '화자를 팀원과 연결해주세요.' : '45분 회의 기준 약 2~3분 소요됩니다'}
           </p>
         )}
 
-        {(isDone || !meetingId) && (
+        {isDone && (
           <button
             onClick={onComplete}
             className="mt-8 w-full bg-[#7b2fbe] rounded-xl py-4 text-xl font-bold text-white cursor-pointer hover:bg-[#6a28a5] transition-colors"
           >
             분석 결과 확인하기
+          </button>
+        )}
+
+        {needsMapping && (
+          <button
+            onClick={onMappingNeeded}
+            className="mt-8 w-full bg-[#7b2fbe] rounded-xl py-4 text-xl font-bold text-white cursor-pointer hover:bg-[#6a28a5] transition-colors"
+          >
+            화자 확인하기
           </button>
         )}
       </div>

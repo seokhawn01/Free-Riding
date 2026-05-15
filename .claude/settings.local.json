@@ -132,7 +132,8 @@
       "Bash(pip show *)",
       "Bash(pip install *)",
       "Bash(ffmpeg -version)",
-      "Bash(choco install *)"
+      "Bash(choco install *)",
+      "mcp__playwright__browser_file_upload"
     ]
   },
   "hooks": {

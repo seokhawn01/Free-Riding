@@ -1,5 +1,5 @@
 export type ModelType = 'standard' | 'premium';
-export type MeetingStatus = 'pending' | 'transcribing' | 'analyzing' | 'completed' | 'failed';
+export type MeetingStatus = 'pending' | 'transcribing' | 'analyzing' | 'pending_speaker_mapping' | 'completed' | 'failed';
 export type ContributionType = 'idea' | 'problem' | 'question' | 'summary' | 'decision' | 'promise';
 
 export interface TeamMember {

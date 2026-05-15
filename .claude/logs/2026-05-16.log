@@ -1,0 +1,119 @@
+[01:03:11] PreToolUse             ToolSearch     
+[01:03:11] PostToolUse            ToolSearch     2ms
+[01:03:16] PreToolUse             mcp__playwright__browser_navigate 
+[01:03:18] PostToolUse            mcp__playwright__browser_navigate 1345ms
+[01:03:22] PreToolUse             mcp__playwright__browser_wait_for 
+[01:03:22] PostToolUse            mcp__playwright__browser_wait_for 40ms
+[01:03:28] PreToolUse             mcp__playwright__browser_click 
+[01:03:32] PostToolUse            mcp__playwright__browser_click 4065ms
+[01:03:39] PreToolUse             mcp__playwright__browser_click 
+[01:03:40] PostToolUse            mcp__playwright__browser_click 1101ms
+[01:03:44] PreToolUse             mcp__playwright__browser_click 
+[01:03:45] PostToolUse            mcp__playwright__browser_click 46ms
+[01:03:48] PreToolUse             mcp__playwright__browser_file_upload 
+[01:03:59] PostToolUseFailure     mcp__playwright__browser_file_upload ERR: ### Error
+Error: File access denied: C:\Users\sh088\Downloads\KOEM 대학생 홍보대사 해삼조 - 해양정책 회의 - 해양환경공단.mp3 is outside allowe
+[01:04:04] PreToolUse             Bash           CMD: cp "/c/Users/sh088/Downloads/KOEM 대학생 홍보대사 해삼조 - 해양정책 회의 - 해양환경공단.mp3" "/c/Users/sh088/free-riding/test-audio.mp3"
+[01:04:16] PostToolUse            Bash           9389ms
+[01:04:20] PreToolUse             mcp__playwright__browser_file_upload 
+[01:04:20] PostToolUseFailure     mcp__playwright__browser_file_upload ERR: ### Error
+Error: The tool "browser_file_upload" can only be used when there is related modal state present.
+### Page
+- P
+[01:04:25] PreToolUse             mcp__playwright__browser_click 
+[01:04:25] PostToolUse            mcp__playwright__browser_click 56ms
+[01:04:27] PreToolUse             mcp__playwright__browser_file_upload 
+[01:04:29] PostToolUse            mcp__playwright__browser_file_upload 1037ms
+[01:04:33] PreToolUse             mcp__playwright__browser_click 
+[01:04:39] PostToolUse            mcp__playwright__browser_click 5619ms
+[01:04:44] PreToolUse             mcp__playwright__browser_wait_for 
+[01:05:19] PostToolUseFailure     mcp__playwright__browser_wait_for ERR: ### Error
+TimeoutError: locator.waitFor: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for getByText('진행 중').first(
+[01:05:24] PreToolUse             mcp__playwright__browser_wait_for 
+[01:05:55] PostToolUse            mcp__playwright__browser_wait_for 30041ms
+[01:05:57] PreToolUse             mcp__playwright__browser_wait_for 
+[01:06:27] PostToolUse            mcp__playwright__browser_wait_for 30015ms
+[01:06:31] PreToolUse             mcp__playwright__browser_snapshot 
+[01:06:31] PostToolUse            mcp__playwright__browser_snapshot 17ms
+[01:06:34] PreToolUse             mcp__playwright__browser_wait_for 
+[01:07:05] PostToolUse            mcp__playwright__browser_wait_for 30020ms
+[01:07:07] PreToolUse             mcp__playwright__browser_snapshot 
+[01:07:08] PostToolUse            mcp__playwright__browser_snapshot 8ms
+[01:07:11] PreToolUse             mcp__playwright__browser_wait_for 
+[01:07:41] PostToolUse            mcp__playwright__browser_wait_for 30009ms
+[01:07:43] PreToolUse             mcp__playwright__browser_snapshot 
+[01:07:44] PostToolUse            mcp__playwright__browser_snapshot 8ms
+[01:07:52] PreToolUse             mcp__playwright__browser_wait_for 
+[01:08:22] PostToolUse            mcp__playwright__browser_wait_for 30016ms
+[01:08:26] PreToolUse             mcp__playwright__browser_snapshot 
+[01:08:26] PostToolUse            mcp__playwright__browser_snapshot 10ms
+[01:08:37] PreToolUse             mcp__playwright__browser_console_messages 
+[01:08:37] PostToolUse            mcp__playwright__browser_console_messages 12ms
+[01:08:59] PreToolUse             mcp__playwright__browser_network_requests 
+[01:09:00] PostToolUse            mcp__playwright__browser_network_requests 18ms
+[01:09:12] PreToolUse             mcp__playwright__browser_wait_for 
+[01:09:42] PostToolUse            mcp__playwright__browser_wait_for 30016ms
+[01:09:46] PreToolUse             mcp__playwright__browser_snapshot 
+[01:09:46] PostToolUse            mcp__playwright__browser_snapshot 9ms
+[01:09:56] PreToolUse             mcp__playwright__browser_navigate 
+[01:09:57] PostToolUse            mcp__playwright__browser_navigate 953ms
+[01:10:01] PreToolUse             mcp__playwright__browser_navigate 
+[01:10:01] PostToolUse            mcp__playwright__browser_navigate 219ms
+[01:10:04] PreToolUse             mcp__playwright__browser_wait_for 
+[01:10:04] PostToolUse            mcp__playwright__browser_wait_for 16ms
+[01:10:10] PreToolUse             mcp__playwright__browser_click 
+[01:10:12] PostToolUse            mcp__playwright__browser_click 1121ms
+[01:10:17] PreToolUse             mcp__playwright__browser_click 
+[01:10:21] PostToolUse            mcp__playwright__browser_click 3005ms
+[01:10:35] PreToolUse             mcp__playwright__browser_click 
+[01:10:39] PostToolUse            mcp__playwright__browser_click 3122ms
+[01:10:55] PreToolUse             mcp__playwright__browser_click 
+[01:10:56] PostToolUse            mcp__playwright__browser_click 1075ms
+[01:11:02] PreToolUse             mcp__playwright__browser_wait_for 
+[01:11:32] PostToolUse            mcp__playwright__browser_wait_for 30020ms
+[01:11:49] PreToolUse             mcp__playwright__browser_click 
+[01:11:51] PostToolUse            mcp__playwright__browser_click 1052ms
+[01:12:12] PreToolUse             Bash           CMD: find /c/Users/sh088/free-riding/app /c/Users/sh088/free-riding/src /c/Users/sh088/free-riding/pages -type f -name "*.tsx
+[01:12:16] PostToolUse            Bash           3483ms
+[01:12:22] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\app\page.tsx
+[01:12:22] PostToolUse            Read           13ms
+[01:12:29] PreToolUse             Bash           CMD: find /c/Users/sh088/free-riding/components -type f 2>/dev/null
+[01:12:33] PostToolUse            Bash           3958ms
+[01:12:36] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[01:12:36] PostToolUse            Read           6ms
+[01:12:47] PreToolUse             Bash           CMD: find /c/Users/sh088/free-riding/lib -type f 2>/dev/null
+[01:12:52] PostToolUse            Bash           4061ms
+[01:12:55] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\lib\api.ts
+[01:12:55] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\lib\types.ts
+[01:12:55] PostToolUse            Read           9ms
+[01:12:56] PostToolUse            Read           17ms
+[01:13:11] PreToolUse             Read           FILE: C:\Users\sh088\free-riding\components\TeamContributionScreen.tsx
+[01:13:11] PostToolUse            Read           7ms
+[01:13:52] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\lib\types.ts
+[01:13:52] PostToolUse            Edit           44ms
+[01:13:58] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\lib\api.ts
+[01:13:58] PostToolUse            Edit           23ms
+[01:14:02] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\lib\api.ts
+[01:14:02] PostToolUse            Edit           10ms
+[01:14:08] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[01:14:08] PostToolUse            Edit           48ms
+[01:14:17] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[01:14:17] PostToolUse            Edit           37ms
+[01:14:22] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[01:14:22] PostToolUse            Edit           20ms
+[01:14:31] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\components\AiAnalysisScreen.tsx
+[01:14:31] PostToolUse            Edit           34ms
+[01:14:47] PreToolUse             Write          FILE: C:\Users\sh088\free-riding\components\SpeakerMappingScreen.tsx
+[01:14:47] PostToolUse            Write          43ms
+[01:14:51] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\app\page.tsx
+[01:14:51] PostToolUse            Edit           24ms
+[01:14:55] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\app\page.tsx
+[01:14:55] PostToolUse            Edit           34ms
+[01:15:01] PreToolUse             Edit           FILE: C:\Users\sh088\free-riding\app\page.tsx
+[01:15:01] PostToolUse            Edit           27ms
+[01:15:05] PreToolUse             Bash           CMD: npm run build 2>&1 | tail -30
+[01:15:18] PostToolUse            Bash           12853ms
+[01:15:54] PreToolUse             Bash           CMD: git -C /c/Users/sh088/free-riding diff --stat HEAD
+[01:15:58] PostToolUse            Bash           3904ms
