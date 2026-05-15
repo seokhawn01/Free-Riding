@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from schemas import ReportResponse, MemberContribution
 from database import get_supabase
+from auth import get_current_user
 
 router = APIRouter(prefix="/teams", tags=["reports"])
 
@@ -11,10 +12,10 @@ TYPE_SCORE = {
 
 
 @router.get("/{team_id}/report", response_model=ReportResponse)
-def get_report(team_id: str):
+def get_report(team_id: str, user_id: str = Depends(get_current_user)):
     db = get_supabase()
 
-    team = db.table("teams").select("*").eq("id", team_id).single().execute()
+    team = db.table("teams").select("*").eq("id", team_id).eq("user_id", user_id).single().execute()
     if not team.data:
         raise HTTPException(status_code=404, detail="팀을 찾을 수 없습니다")
 

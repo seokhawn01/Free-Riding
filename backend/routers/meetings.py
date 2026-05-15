@@ -1,8 +1,9 @@
 import os
 import tempfile
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form, BackgroundTasks
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form, BackgroundTasks, Depends
 from schemas import MeetingStatusResponse, ContributionCardResponse, PromiseCardResponse
 from database import get_supabase
+from auth import get_current_user
 from services.ai_service import process_meeting
 
 router = APIRouter(tags=["meetings"])
@@ -14,11 +15,12 @@ async def upload_meeting(
     background_tasks: BackgroundTasks,
     audio: UploadFile = File(...),
     model_type: str = Form("standard"),
+    user_id: str = Depends(get_current_user),
 ):
     db = get_supabase()
 
-    # 팀 존재 확인
-    team = db.table("teams").select("id").eq("id", team_id).single().execute()
+    # 팀 소유권 확인
+    team = db.table("teams").select("id").eq("id", team_id).eq("user_id", user_id).single().execute()
     if not team.data:
         raise HTTPException(status_code=404, detail="팀을 찾을 수 없습니다")
 

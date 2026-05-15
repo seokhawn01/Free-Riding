@@ -1,14 +1,20 @@
 from datetime import datetime, timezone
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from schemas import PromiseCardResponse, PromiseCompleteRequest
 from database import get_supabase
+from auth import get_current_user
 
 router = APIRouter(prefix="/promises", tags=["promises"])
 
 
 @router.get("/teams/{team_id}/promises", response_model=list[PromiseCardResponse])
-def get_team_promises(team_id: str):
+def get_team_promises(team_id: str, user_id: str = Depends(get_current_user)):
     db = get_supabase()
+
+    # 팀 소유권 확인
+    team = db.table("teams").select("id").eq("id", team_id).eq("user_id", user_id).single().execute()
+    if not team.data:
+        raise HTTPException(status_code=404, detail="팀을 찾을 수 없습니다")
 
     meetings = db.table("meetings").select("id").eq("team_id", team_id).execute()
     if not meetings.data:
